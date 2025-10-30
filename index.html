@@ -1,284 +1,411 @@
 <!DOCTYPE html>
-
-<html dir="rtl" lang="he">
+<html lang="he">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1" name="viewport"/>
-<title>Assal – Premium Multilingual Menu</title>
-<meta content="#6E5AA6" name="theme-color"/>
-<script src="https://cdn.tailwindcss.com"></script>
-<style>
-    :root { --assal:#6E5AA6; }
-    html { font-family: 'Cairo', sans-serif; }
-    body { background: var(--assal); color:#fff; background-image: radial-gradient(circle at top left,#7b66b3,#5d479a); background-attachment:fixed; overflow-x:hidden; }
-    .glass { background: rgba(255,255,255,0.1); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.2); box-shadow: 0 4px 25px rgba(0,0,0,0.2); }
-    h2 { font-size:1.75rem; font-weight:700; margin-bottom:1rem; text-align:center; display:flex; align-items:center; justify-content:center; gap:10px; }
-    .item { display:flex; justify-content:space-between; padding:0.6rem 0.2rem; border-bottom:1px solid rgba(255,255,255,0.1); font-size:1.02rem; transition:0.25s; }
-    .item:hover { background: rgba(255,255,255,0.08); box-shadow:0 0 12px rgba(255,255,255,0.25); border-radius:10px; padding-inline:0.6rem; }
-    @keyframes fadeSlide { from {opacity:0; transform:translateY(30px);} to {opacity:1; transform:translateY(0);} }
-    .fadeSlide { animation: fadeSlide 0.7s ease forwards; opacity:0; }
-    #loader { position: fixed; inset: 0; background: var(--assal); display:flex; flex-direction:column; align-items:center; justify-content:center; z-index:60; }
-    #loader img { object-fit: contain; background: white; width:120px; height:120px; border-radius:50%; border:3px solid white; animation:spin 3s linear infinite; box-shadow:0 0 30px rgba(255,255,255,0.4); object-fit:cover; }
-    #loader h1 { margin-top:20px; font-size:32px; font-weight:700; letter-spacing:2px; color:white; }
-    @keyframes spin { from {transform:rotate(0deg);} to {transform:rotate(360deg);} }
-    #lang-screen { position: fixed; inset: 0; display: none; flex-direction: column; justify-content: center; align-items: center; background: rgba(0,0,0,0.6); backdrop-filter: blur(12px); z-index: 50; }
-    .lang-btn { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.3); padding: 12px 24px; margin: 6px; border-radius: 12px; font-weight: 600; transition: 0.3s; }
-    .lang-btn:hover { background: rgba(255,255,255,0.3); }
-    .icon { width:24px; height:24px; }
-    .footer-ig a { transition: color .3s ease; }
-    .footer-ig a:hover { color:#cbb9ff; }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Assal Port | Luxury Café Menu</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root{
+      --purple:#6e3fa9; /* brand purple */
+      --bg1:#12001a;   /* deep purple-black */
+      --bg2:#2e004f;   /* gradient purple */
+      --glass: rgba(255, 255, 255, 0.07);
+      --stroke: rgba(255,255,255,.18);
+      --accent:#ff3b5c; /* tiny red accent */
+    }
+    body{
+      font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans", "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      background: radial-gradient(1200px 600px at 70% 10%, rgba(255,59,92,.15), transparent 60%),
+                  linear-gradient(135deg, var(--bg1), var(--bg2));
+      color: #fff;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+    /* Loading */
+    #loading{
+      position: fixed; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:18px;
+      background: linear-gradient(135deg, var(--bg1), var(--bg2)); z-index:9999;
+    }
+    #loading img{ width: 180px; filter: drop-shadow(0 10px 30px rgba(0,0,0,.4)); animation: fadeIn 1.2s ease both; }
+    #loading h1{ letter-spacing: 3px; opacity:.9; animation: fadeIn 1.6s .2s ease both; }
+    @keyframes fadeIn{ from{ opacity:0; transform: translateY(6px);} to{ opacity:1; transform:none;}}
+
+    /* Language Gate */
+    #language-select{ display:none; min-height:100vh; align-items:center; justify-content:center; flex-direction:column; gap:20px; }
+    .lang-panel{
+      background: var(--glass); backdrop-filter: blur(16px); border:1px solid var(--stroke);
+      border-radius: 20px; padding: 26px 28px; box-shadow: 0 0 50px rgba(255,59,92,.15);
+    }
+    .lang-title{ text-align:center; margin-bottom:12px; color:#e9d7ff; font-weight:600; }
+    .lang-btn{
+      display:inline-block; margin:8px; padding:10px 22px; border-radius:999px; border:1px solid var(--stroke);
+      background: linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.06)); color:#fff; cursor:pointer; font-size:16px;
+      transition: transform .15s ease, box-shadow .2s ease, background .2s ease;
+    }
+    .lang-btn:hover{ transform: translateY(-1px); box-shadow: 0 8px 24px rgba(110,63,169,.35); }
+
+    /* Menu */
+    #menu{ display:none; max-width:1000px; margin:42px auto; padding:0 18px 40px; }
+    .brand{ display:flex; align-items:center; justify-content:center; gap:12px; margin-bottom:22px; }
+    .brand img{ width:70px; height:70px; border-radius:999px; background:#5f3a90; border:1px solid var(--stroke); }
+    .brand h1{ font-size:clamp(26px, 4vw, 40px); color:#d7b7ff; letter-spacing:.5px; }
+
+    .glass{ background: var(--glass); border:1px solid var(--stroke); backdrop-filter: blur(22px); border-radius: 22px; padding:26px; box-shadow: 0 0 50px rgba(255,59,92,.15); }
+
+    .grid{ display:grid; grid-template-columns: 1fr; gap:20px; }
+    @media(min-width:820px){ .grid{ grid-template-columns: 1fr 1fr; } }
+
+    .category{ padding:18px 18px 16px; border-radius:18px; border:1px solid var(--stroke); background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02)); }
+    .cat-title{ display:flex; align-items:center; justify-content:space-between; border-bottom:1px dashed var(--stroke); padding-bottom:10px; margin-bottom:14px; }
+    .cat-title h2{ font-size:clamp(18px,2.6vw,22px); color:#ff9de3; font-weight:600; }
+
+    .item{ display:flex; flex-direction:column; gap:3px; padding:10px 6px; border-radius:12px; transition: background .2s ease; }
+    .item:hover{ background: rgba(255,255,255,.05); }
+    .row{ display:flex; align-items:baseline; justify-content:space-between; gap:10px; }
+    .name{ font-weight:600; letter-spacing:.2px; }
+    .price{ opacity:.9; }
+    .desc{ font-size:.92em; opacity:.88; line-height:1.45; padding-inline-start:2px; }
+
+    .footer{ text-align:center; margin-top:30px; opacity:.9; }
+    .footer a{ color:#ffd1e9; text-decoration:none; border-bottom:1px dotted rgba(255,255,255,.35); }
+    .rights{ margin-top:6px; font-size:.92em; opacity:.8; }
   </style>
 </head>
-<body class="min-h-screen">
-<!-- Loader -->
-<div id="loader">
-<img src="./Logo.png" alt="Assal Logo" />
-<h1>Assal</h1>
-</div>
-<!-- Language Gate -->
-<div id="lang-screen">
-<img alt="Assal Logo" class="h-24 w-24 rounded-full border-4 border-white mb-4" src="Logo.png"/>
-<h2 class="text-3xl font-bold mb-6">اختر اللغة / Select Language</h2>
-<div class="flex flex-wrap justify-center">
-<button class="lang-btn" data-lang="ar">العربية</button>
-<button class="lang-btn" data-lang="he">עברית</button>
-<button class="lang-btn" data-lang="en">English</button>
-<button class="lang-btn" data-lang="ru">Русский</button>
-<button class="lang-btn" data-lang="fr">Français</button>
-</div>
-</div>
-<!-- Header -->
-<header class="hidden sticky top-0 glass py-4 text-center text-3xl font-bold tracking-wide flex justify-center items-center gap-4" id="main-header">
-<img alt="Assal Logo" class="h-10 w-10 rounded-full border-2 border-white object-cover" src="Logo.png"/>
-<span id="site-title">Assal</span>
-</header>
-<!-- Content -->
-<main class="hidden max-w-3xl mx-auto mt-10 space-y-10 p-4" id="menu"></main>
-<!-- Footer -->
-<footer class="hidden mt-16 text-center py-6 text-sm text-zinc-200 border-t border-white/20 footer-ig flex flex-col items-center gap-3" id="footer">
-<div id="footer-text">© 2025 Assal — Designed with Elegance 💜</div>
-<a aria-label="Instagram" class="flex items-center gap-2 text-white hover:text-purple-300" href="https://www.instagram.com/assal_port?utm_source=qr&amp;igsh=ejIyMWNrMm9wNXh5" target="_blank">
-<svg class="w-6 h-6" fill="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path d="M7.75 2A5.75 5.75 0 0 0 2 7.75v8.5A5.75 5.75 0 0 0 7.75 22h8.5A5.75 5.75 0 0 0 22 16.25v-8.5A5.75 5.75 0 0 0 16.25 2h-8.5ZM12 7a5 5 0 1 1 0 10a5 5 0 0 1 0-10Zm0 1.5a3.5 3.5 0 1 0 0 7a3.5 3.5 0 0 0 0-7ZM17.5 6a1 1 0 1 1 0 2a1 1 0 0 1 0-2Z"></path>
-</svg>
-<span>@assal_port</span>
-</a>
-</footer>
-<script>
-    /* ===== Loader -> Language ===== */
-    const loader = document.getElementById('loader');
-    const langScreen = document.getElementById('lang-screen');
-    const mainHeader = document.getElementById('main-header');
-    const menu = document.getElementById('menu');
-    const footer = document.getElementById('footer');
-    const footerText = document.getElementById('footer-text');
+<body>
+  <!-- Loading Screen -->
+  <div id="loading">
+    <img src="Logo.png" alt="Assal Port Logo" />
+    <h1>Assal Port</h1>
+  </div>
 
-    setTimeout(()=>{ loader.style.display='none'; langScreen.style.display='flex'; }, 2000);
+  <!-- Language Selection -->
+  <section id="language-select">
+    <div class="lang-panel">
+      <h2 class="lang-title" data-i18n="ui.select">Select Language</h2>
+      <div style="text-align:center">
+        <button class="lang-btn" onclick="setLang('he')">עברית</button>
+        <button class="lang-btn" onclick="setLang('ar')">عربي</button>
+        <button class="lang-btn" onclick="setLang('ru')">Русский</button>
+        <button class="lang-btn" onclick="setLang('fr')">Français</button>
+      </div>
+    </div>
+  </section>
 
-    /* ===== UI Icons per section (simple elegant SVG) ===== */
-    const icons = {
-      shakes: '<svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M8 3h8l-1 5H9L8 3z"/><path d="M9 8h6l-1 12H10L9 8z"/><path d="M12 3v2"/></svg>',
-      barad:  '<svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2v20M5 12h14"/></svg>',
-      juices: '<svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/></svg>',
-      fruits: '<svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M7 12a5 5 0 0 1 10 0v4a5 5 0 0 1-10 0v-4z"/></svg>',
-      coffee: '<svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 8h14v5a7 7 0 0 1-14 0V8z"/><path d="M17 10h2a3 3 0 0 1 0 6h-2"/></svg>',
-      acai:   '<svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7"/></svg>',
-      bakery: '<svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="4" y="12" width="16" height="6" rx="2"/><path d="M6 12a6 6 0 0 1 12 0"/></svg>'
-    };
+  <!-- Menu -->
+  <main id="menu">
+    <div class="brand">
+      <img src="Logo.png" alt="logo" />
+      <h1 id="menuTitle">Assal Port — Menu</h1>
+    </div>
 
-    /* ===== All translations & data ===== */
-    const DATA = {
-      // Section titles
-      titles: {
-        ar: {shakes:'سموثيز', barad:'ثلج طبيعي', juices:'عصائر طبيعية', fruits:'فاكهة طازجة', coffee:'مشروبات ساخنة وباردة', acai:'آساي حسب الطلب', bakery:'قهوة + معجنات'},
-        he: {shakes:'שייקים', barad:'ברד טבעי', juices:'סחוסים טבעיים', fruits:'פירות טריים', coffee:'משקאות חמים וקרים', acai:'אסאי בהרכבה', bakery:'קפה + מאפה'},
-        en: {shakes:'Smoothies', barad:'Natural Ice', juices:'Natural Juices', fruits:'Fresh Fruits', coffee:'Hot & Cold Drinks', acai:'Custom Acai Bowl', bakery:'Coffee + Pastry'},
-        ru: {shakes:'Смузи', barad:'Ледяные напитки', juices:'Натуральные соки', fruits:'Свежие фрукты', coffee:'Горячие и холодные напитки', acai:'Асаи на заказ', bakery:'Кофе + Выпечка'},
-        fr: {shakes:'Smoothies', barad:'Glaces naturelles', juices:'Jus naturels', fruits:'Fruits frais', coffee:'Boissons chaudes et froides', acai:'Açaï sur mesure', bakery:'Café + Viennoiserie'}
+    <section class="glass">
+      <div id="categories" class="grid"></div>
+      <div class="footer">
+        <div id="social"></div>
+        <div class="rights">© 2025 Abokaud Scripts</div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+  // --------- Data Model ---------
+  const PR = (s,l) => ({s, l}); // price helper small/large
+
+  const DATA = {
+    categories: [
+      { id: 'smoothies' },
+      { id: 'ice' },
+      { id: 'juices' },
+      { id: 'fruits' },
+      { id: 'hotcold' },
+      { id: 'acai' },
+      { id: 'coffeePastry' },
+    ],
+    items: {
+      // --- Smoothies (with descriptions) ---
+      summerFresh:   { cat:'smoothies', prices: PR(22,26) },
+      greenYellow:   { cat:'smoothies', prices: PR(22,26) },
+      strawberryMango:{ cat:'smoothies', prices: PR(22,26) },
+      yourWinner:    { cat:'smoothies', prices: PR(22,26) },
+      brazilExotic:  { cat:'smoothies', prices: PR(26,34) },
+      peanutButter:  { cat:'smoothies', prices: PR(22,26) },
+      proteinBoost:  { cat:'smoothies', prices: PR(22,26) },
+      richBerries:   { cat:'smoothies', prices: PR(22,26) },
+      melonBananaDate:{ cat:'smoothies', prices: PR(22,26) },
+      mangoPine:     { cat:'smoothies', prices: PR(22,26) },
+      tropicExotic:  { cat:'smoothies', prices: PR(22,26) },
+      energy:        { cat:'smoothies', prices: PR(22,26) },
+      strawberryBananaDream:{ cat:'smoothies', prices: PR(22,26) },
+      bananaDate:    { cat:'smoothies', prices: PR(22,26) },
+      green:         { cat:'smoothies', prices: PR(22,26) },
+
+      // --- Ice (ברד טבעי) ---
+      iceStrawberry: { cat:'ice', prices: PR(15,20) },
+      icePassion:    { cat:'ice', prices: PR(10,20) },
+
+      // --- Natural Juices (סחוסים טבעיים) ---
+      jOrange:   { cat:'juices', prices: PR(15,20) },
+      jCarrot:   { cat:'juices', prices: PR(15,20) },
+      jCarrotOrange:{ cat:'juices', prices: PR(15,20) },
+      jLemonade: { cat:'juices', prices: PR(15,20) },
+      jGrapefruitRed:{ cat:'juices', prices: PR(20,26) },
+      jBeetGinger:{ cat:'juices', prices: PR(20,26) },
+      jApple:    { cat:'juices', prices: PR(20,26) },
+      jLimoNana: { cat:'juices', prices: PR(20,26) },
+      jPomegranate:{ cat:'juices', prices: PR(20,26) },
+      jMojito:   { cat:'juices', prices: PR(null,20) },
+
+      // --- Fresh Fruits ---
+      fGrapes:   { cat:'fruits', prices: PR(null,20) },
+      fPome:     { cat:'fruits', prices: PR(null,20) },
+      fStraw:    { cat:'fruits', prices: PR(null,20) },
+      fWatermelon:{ cat:'fruits', prices: PR(null,20) },
+      fPomelo:   { cat:'fruits', prices: PR(null,20) },
+      fFruitSalad:{ cat:'fruits', prices: PR(null,25) },
+      fCoconut:  { cat:'fruits', prices: PR(null,27) },
+      fFruitPlatter:{ cat:'fruits', prices: PR(null,45) },
+      fFruitPlatterLarge:{ cat:'fruits', prices: PR(null,65) },
+
+      // --- Hot & Cold Drinks ---
+      dWater:    { cat:'hotcold', prices: PR(null,10) },
+      dSoft:     { cat:'hotcold', prices: PR(null,10) },
+      dEspresso: { cat:'hotcold', prices: PR(9,11) },
+      dMacchiato:{ cat:'hotcold', prices: PR(null,11) },
+      dNescafe:  { cat:'hotcold', prices: PR(14,16) },
+      dAmericano:{ cat:'hotcold', prices: PR(null,16) },
+      dHotChoc:  { cat:'hotcold', prices: PR(null,16) },
+      dIcedCoffee:{ cat:'hotcold', prices: PR(null,16) },
+      dIceBlend: { cat:'hotcold', prices: PR(18,24) },
+      dHerbal:   { cat:'hotcold', prices: PR(null,16) },
+      dTeaMint:  { cat:'hotcold', prices: PR(null,10) },
+      dSahleb:   { cat:'hotcold', prices: PR(null,16) },
+
+      // --- Açaí ---
+      acaiBuild: { cat:'acai', prices: PR(null,48) },
+
+      // --- Coffee + Pastry ---
+      coffeePastry:{ cat:'coffeePastry', prices: PR(null,16) },
+    }
+  };
+
+  // --------- Translations ---------
+  const T = {
+    he: {
+      dir: 'rtl', title: 'Assal Port — תפריט',
+      ui: { select:'בחר שפה', social:'עקבו אחרינו ב־', instagram:'Instagram' },
+      categories: {
+        smoothies:'שייקים', ice:'ברד טבעי', juices:'סחוסים טבעיים', fruits:'פירות טריים', hotcold:'משקאות חמים וקרים', acai:'אסאי בהרכבה', coffeePastry:'קפה + מאפה'
       },
-      // Footer titles
-      brand: { ar:'أصال', he:'אסאל', en:'Assal', ru:'Ассаль', fr:'Assal' },
-      // Items per section in each language
       items: {
-        shakes: {
-          ar: [
-            ['صيفي منعش', '22 | 26 ₪'],
-            ['أخضر أصفر', '22 | 26 ₪'],
-            ['سموثي فراولة مانجو', '22 | 26 ₪'],
-            ['السموثي الفائز', '22 | 26 ₪'],
-            ['برازيلي استوائي', '26 | 34 ₪'],
-            ['زبدة الفول السوداني', '22 | 26 ₪'],
-            ['بروتين طاقي', '22 | 26 ₪'],
-            ['توت غني', '22 | 26 ₪'],
-            ['شمام موز وتمر', '22 | 26 ₪'],
-            ['مانجو أناناس', '22 | 26 ₪'],
-            ['استوائي غريب', '22 | 26 ₪'],
-            ['طاقة', '22 | 26 ₪'],
-            ['فراولة موز حالم', '22 | 26 ₪'],
-            ['موز تمر', '22 | 26 ₪'],
-            ['أخضر', '22 | 26 ₪']
-          ],
-          he: [
-            ['קייצי מרענן', '22 | 26 ₪'],
-            ['ירוק צהוב', '22 | 26 ₪'],
-            ['תות מנגו', '22 | 26 ₪'],
-            ['השייק שלכם מנצח', '22 | 26 ₪'],
-            ['ברזילאי אקזוטי', '26 | 34 ₪'],
-            ['חמאת בוטנים', '22 | 26 ₪'],
-            ['חלבון אנרגטי', '22 | 26 ₪'],
-            ['פירות יער עשיר', '22 | 26 ₪'],
-            ['מלון בננה ותמר', '22 | 26 ₪'],
-            ['מנגו אננס', '22 | 26 ₪'],
-            ['טרופי אקזוטי', '22 | 26 ₪'],
-            ['אנרגיה', '22 | 26 ₪'],
-            ['תות בננה חלומי', '22 | 26 ₪'],
-            ['בננה תמר', '22 | 26 ₪'],
-            ['ירוק', '22 | 26 ₪']
-          ],
-          en: [
-            ['Summer Refresher', '22 | 26 ₪'],
-            ['Green Yellow', '22 | 26 ₪'],
-            ['Strawberry Mango Smoothie', '22 | 26 ₪'],
-            ['Your Winning Smoothie', '22 | 26 ₪'],
-            ['Brazilian Exotic', '26 | 34 ₪'],
-            ['Peanut Butter', '22 | 26 ₪'],
-            ['Protein Energy', '22 | 26 ₪'],
-            ['Berry Rich', '22 | 26 ₪'],
-            ['Melon Banana & Date', '22 | 26 ₪'],
-            ['Mango Pineapple', '22 | 26 ₪'],
-            ['Tropical Exotic', '22 | 26 ₪'],
-            ['Energy', '22 | 26 ₪'],
-            ['Dreamy Strawberry Banana', '22 | 26 ₪'],
-            ['Banana Date', '22 | 26 ₪'],
-            ['Green', '22 | 26 ₪']
-          ],
-          ru: [
-            ['Летний освежающий', '22 | 26 ₪'],
-            ['Зелёно-жёлтый', '22 | 26 ₪'],
-            ['Смузи клубника-манго', '22 | 26 ₪'],
-            ['Ваш победный смузи', '22 | 26 ₪'],
-            ['Бразильский экзотический', '26 | 34 ₪'],
-            ['Арахисовое масло', '22 | 26 ₪'],
-            ['Протеиновая энергия', '22 | 26 ₪'],
-            ['Ягодный микс', '22 | 26 ₪'],
-            ['Дыня, банан и финик', '22 | 26 ₪'],
-            ['Манго ананас', '22 | 26 ₪'],
-            ['Тропический экзотик', '22 | 26 ₪'],
-            ['Энергия', '22 | 26 ₪'],
-            ['Клубника-банан мечта', '22 | 26 ₪'],
-            ['Банан финик', '22 | 26 ₪'],
-            ['Зелёный', '22 | 26 ₪']
-          ],
-          fr: [
-            ["Rafraîchissant d’été", '22 | 26 ₪'],
-            ['Vert–Jaune', '22 | 26 ₪'],
-            ['Smoothie Fraise Mangue', '22 | 26 ₪'],
-            ['Votre smoothie gagnant', '22 | 26 ₪'],
-            ['Brésilien exotique', '26 | 34 ₪'],
-            ['Beurre de cacahuète', '22 | 26 ₪'],
-            ['Protéine Énergie', '22 | 26 ₪'],
-            ['Fruits rouges riche', '22 | 26 ₪'],
-            ['Melon Banane & Datte', '22 | 26 ₪'],
-            ['Mangue Ananas', '22 | 26 ₪'],
-            ['Tropical exotique', '22 | 26 ₪'],
-            ['Énergie', '22 | 26 ₪'],
-            ['Fraise Banane Rêve', '22 | 26 ₪'],
-            ['Banane Datte', '22 | 26 ₪'],
-            ['Vert', '22 | 26 ₪']
-          ]
-        },
-        barad: {
-          ar: [['فراولة (ثلج)', '15 | 20 ₪'], ['باشن فروت (ثلج)', '10 | 20 ₪']],
-          he: [['תות', '15 | 20 ₪'], ['פסיפלורה', '10 | 20 ₪']],
-          en: [['Strawberry Ice', '15 | 20 ₪'], ['Passionfruit Ice', '10 | 20 ₪']],
-          ru: [['Клубника (лед)', '15 | 20 ₪'], ['Маракуйя (лед)', '10 | 20 ₪']],
-          fr: [['Fraise glacée', '15 | 20 ₪'], ['Fruit de la passion glacé', '10 | 20 ₪']]
-        },
-        juices: {
-          ar: [['برتقال', '15 | 20 ₪'], ['جزر', '15 | 20 ₪'], ['برتقال جزر', '15 | 20 ₪'], ['ليموناضة', '15 | 20 ₪'], ['جريب فروت أحمر', '20 | 26 ₪'], ['شمندر زنجبيل', '20 | 26 ₪'], ['تفاح', '20 | 26 ₪'], ['ليمون نعناع مجروش', '20 | 26 ₪'], ['رمان (موسمي)', '20 | 26 ₪'], ['موهيتو', '20 ₪']],
-          he: [['תפוז', '15 | 20 ₪'], ['גזר', '15 | 20 ₪'], ['תפוגזר', '15 | 20 ₪'], ['לימונדה', '15 | 20 ₪'], ['אשכולית אדומה', '20 | 26 ₪'], ['סלק ג\'ינג\'ר', '20 | 26 ₪'], ['תפוח', '20 | 26 ₪'], ['לימונענע גרוס', '20 | 26 ₪'], ['רימון (בעונה)', '20 | 26 ₪'], ['מוחיטו', '20 ₪']],
-          en: [['Orange', '15 | 20 ₪'], ['Carrot', '15 | 20 ₪'], ['Orange-Carrot', '15 | 20 ₪'], ['Lemonade', '15 | 20 ₪'], ['Red Grapefruit', '20 | 26 ₪'], ['Beet Ginger', '20 | 26 ₪'], ['Apple', '20 | 26 ₪'], ['Crushed Lemon-Mint', '20 | 26 ₪'], ['Pomegranate (Seasonal)', '20 | 26 ₪'], ['Mojito', '20 ₪']],
-          ru: [['Апельсин', '15 | 20 ₪'], ['Морковь', '15 | 20 ₪'], ['Апельсин-морковь', '15 | 20 ₪'], ['Лимонад', '15 | 20 ₪'], ['Красный грейпфрут', '20 | 26 ₪'], ['Свёкла-имбирь', '20 | 26 ₪'], ['Яблоко', '20 | 26 ₪'], ['Дробл. лимон-мята', '20 | 26 ₪'], ['Гранат (сезонный)', '20 | 26 ₪'], ['Мохито', '20 ₪']],
-          fr: [['Orange', '15 | 20 ₪'], ['Carotte', '15 | 20 ₪'], ['Orange–Carotte', '15 | 20 ₪'], ['Limonade', '15 | 20 ₪'], ['Pamplemousse rose', '20 | 26 ₪'], ['Betterave Gingembre', '20 | 26 ₪'], ['Pomme', '20 | 26 ₪'], ['Citron–Menthe pilée', '20 | 26 ₪'], ['Grenade (saison)', '20 | 26 ₪'], ['Mojito', '20 ₪']]
-        },
-        fruits: {
-          ar: [['عنب', '20 ₪'], ['رمان', '20 ₪'], ['فراولة', '20 ₪'], ['بطيخ', '20 ₪'], ['بوميلا', '20 ₪'], ['سلطة فواكه فردية', '25 ₪'], ['جوز هند كامل طبيعي', '27 ₪'], ['طبق فواكه فاخر', '45 ₪'], ['طبق فواكه كبير', '65 ₪']],
-          he: [['ענבים', '20 ₪'], ['רימון', '20 ₪'], ['תות', '20 ₪'], ['אבטיח', '20 ₪'], ['פומלה', '20 ₪'], ['סלט פירות אישי', '25 ₪'], ['קוקוס שלם טבעי', '27 ₪'], ['מגש פירות מפנק', '45 ₪'], ['מגש פירות גדול', '65 ₪']],
-          en: [['Grapes', '20 ₪'], ['Pomegranate', '20 ₪'], ['Strawberry', '20 ₪'], ['Watermelon', '20 ₪'], ['Pomelo', '20 ₪'], ['Personal Fruit Salad', '25 ₪'], ['Whole Natural Coconut', '27 ₪'], ['Indulgent Fruit Platter', '45 ₪'], ['Large Fruit Platter', '65 ₪']],
-          ru: [['Виноград', '20 ₪'], ['Гранат', '20 ₪'], ['Клубника', '20 ₪'], ['Арбуз', '20 ₪'], ['Помело', '20 ₪'], ['Фруктовый салат (персон.)', '25 ₪'], ['Кокос целый натуральный', '27 ₪'], ['Большое ассорти фруктов', '45 ₪'], ['Платтер фруктов большой', '65 ₪']],
-          fr: [['Raisins', '20 ₪'], ['Grenade', '20 ₪'], ['Fraise', '20 ₪'], ['Pastèque', '20 ₪'], ['Pomélo', '20 ₪'], ['Salade de fruits individuelle', '25 ₪'], ['Noix de coco entière naturelle', '27 ₪'], ['Plateau de fruits gourmet', '45 ₪'], ['Grand plateau de fruits', '65 ₪']]
-        },
-        coffee: {
-          ar: [['مياه معدنية / غازية', '10 ₪'], ['مشروب غازي', '10 ₪'], ['إسبريسو / دبل', '9 / 11 ₪'], ['ماكياتو', '11 ₪'], ['نسكافيه / كافيه أو ليه', '14 / 16 ₪'], ['أمريكانو', '16 ₪'], ['شوكلاته ساخنة / باردة', '16 ₪'], ['قهوة باردة', '16 ₪'], ['آيس كوفي', '18 / 24 ₪'], ['شاي أعشاب', '16 ₪'], ['شاي - نعناع', '10 ₪'], ['سحلب', '16 ₪']],
-          he: [['מים מינרליים / מוגזים', '10 ₪'], ['שתייה קלה', '10 ₪'], ['אספרסו / כפול', '9 / 11 ₪'], ['מקיאטו', '11 ₪'], ['נס קפה / הפוך', '14 / 16 ₪'], ['אמריקנו', '16 ₪'], ['שוקו חם / קר', '16 ₪'], ['קפה קר', '16 ₪'], ['אייס קפה', '18 / 24 ₪'], ['חליטת צמחים', '16 ₪'], ['תה - מי נענע', '10 ₪'], ['סחלב', '16 ₪']],
-          en: [['Mineral / Sparkling Water', '10 ₪'], ['Soft Drink', '10 ₪'], ['Espresso / Double', '9 / 11 ₪'], ['Macchiato', '11 ₪'], ['Instant Coffee / Latte', '14 / 16 ₪'], ['Americano', '16 ₪'], ['Hot / Cold Chocolate', '16 ₪'], ['Iced Coffee', '16 ₪'], ['Ice Coffee (Frappe)', '18 / 24 ₪'], ['Herbal Infusion', '16 ₪'], ['Tea - Mint', '10 ₪'], ['Sahlab', '16 ₪']],
-          ru: [['Вода минеральная / газированная', '10 ₪'], ['Безалкогольный напиток', '10 ₪'], ['Эспрессо / двойной', '9 / 11 ₪'], ['Маккиато', '11 ₪'], ['Растворимый / Латте', '14 / 16 ₪'], ['Американо', '16 ₪'], ['Шоколад горячий / холодный', '16 ₪'], ['Холодный кофе', '16 ₪'], ['Айскофе', '18 / 24 ₪'], ['Травяной настой', '16 ₪'], ['Чай - мята', '10 ₪'], ['Сахлаб', '16 ₪']],
-          fr: [['Eau minérale / pétillante', '10 ₪'], ['Boisson gazeuse', '10 ₪'], ['Espresso / Double', '9 / 11 ₪'], ['Macchiato', '11 ₪'], ['Café instantané / Latte', '14 / 16 ₪'], ['Americano', '16 ₪'], ['Chocolat chaud / froid', '16 ₪'], ['Café glacé', '16 ₪'], ['Ice Coffee (frappé)', '18 / 24 ₪'], ['Infusion aux herbes', '16 ₪'], ['Thé - Menthe', '10 ₪'], ['Sahlab', '16 ₪']]
-        },
-        acai: {
-          ar: [['آساي حسب الطلب "تركيباتنا أو اختر بنفسك"', '48 ₪']],
-          he: [['אסאי בהרכבה "הרכבה שלנו או הרכבה עצמית"', '48 ₪']],
-          en: [['Custom Acai Bowl "Our combo or build your own"', '48 ₪']],
-          ru: [['Асаи на заказ «наш сет или собери сам»', '48 ₪']],
-          fr: [['Açaï sur mesure « notre combo ou créez le vôtre »', '48 ₪']]
-        },
-        bakery: {
-          ar: [['قهوة + معجنات', '16 ₪']],
-          he: [['קפה + מאפה', '16 ₪']],
-          en: [['Coffee + Pastry', '16 ₪']],
-          ru: [['Кофе + Выпечка', '16 ₪']],
-          fr: [['Café + Viennoiserie', '16 ₪']]
-        }
+        // smoothies names & desc
+        summerFresh:{ name:'קייצי מרענן', desc:'אבטיח, נענע, אננס ופטל.' },
+        greenYellow:{ name:'ירוק צהוב', desc:'קיווי, בננה ותפוח ירוק.' },
+        strawberryMango:{ name:'תות מנגו', desc:'תות, מנגו ותפוז.' },
+        yourWinner:{ name:'השייק שלכם מנצח', desc:'שייק בהרכבה אישית.' },
+        brazilExotic:{ name:'ברזילאי אקזוטי', desc:'אסאי, מנגו ובננה.' },
+        peanutButter:{ name:'חמאת בוטנים', desc:'שילוב עשיר של בננה, חמאת בוטנים וחלב סויה.' },
+        proteinBoost:{ name:'חלבון אנרגטי', desc:'בננה, חלב שקדים, אבקת חלבון, חמאת בוטנים, דבש.' },
+        richBerries:{ name:'פירות יער עשיר', desc:'תותים, מיקס פירות יער, ודבש.' },
+        melonBananaDate:{ name:'מלון בננה ותמר', desc:'מלון, בננה, תמרים, חלב שקדים וקינמון.' },
+        mangoPine:{ name:'מנגו אננס', desc:'מנגו, אננס וקוקוס טבעי.' },
+        tropicExotic:{ name:'טרופי אקזוטי', desc:'שילוב מרענן של מנגו, אננס ופסיפלורה.' },
+        energy:{ name:'אנרגיה', desc:'שילוב בריא של אבוקדו, מנגו, בננה ודבש.' },
+        strawberryBananaDream:{ name:'תות בננה חלומי', desc:'תותים, בננה ודבש.' },
+        bananaDate:{ name:'בננה תמר', desc:'שילוב מפנק של בננה, תמר, ואפקאן.' },
+        green:{ name:'ירוק', desc:'שילוב מרענן של סלרי, מלפפון, ג\'ינג\'ר, תפוח ירוק ומיץ לימון.' },
+        // other categories (names only)
+        iceStrawberry:{ name:'תות' }, icePassion:{ name:'פסיפלורה' },
+        jOrange:{ name:'תפוז' }, jCarrot:{ name:'גזר' }, jCarrotOrange:{ name:'תפוגזר' }, jLemonade:{ name:'לימונדה' }, jGrapefruitRed:{ name:'אשכולית אדומה' }, jBeetGinger:{ name:'סלק ג\'ינג\'ר' }, jApple:{ name:'תפוח' }, jLimoNana:{ name:'לימונענע גרוס' }, jPomegranate:{ name:'רימון (בעונה)' }, jMojito:{ name:'מוחיטו' },
+        fGrapes:{ name:'ענבים' }, fPome:{ name:'רימון' }, fStraw:{ name:'תות' }, fWatermelon:{ name:'אבטיח' }, fPomelo:{ name:'פומלה' }, fFruitSalad:{ name:'סלט פירות אישי' }, fCoconut:{ name:'קוקוס שלם טבעי' }, fFruitPlatter:{ name:'מגש פירות מפנק' }, fFruitPlatterLarge:{ name:'מגש פירות גדול' },
+        dWater:{ name:'מים מינרליים / מוגזים' }, dSoft:{ name:'שתייה קלה' }, dEspresso:{ name:'אספרסו / כפול' }, dMacchiato:{ name:'מקיאטו' }, dNescafe:{ name:'נס קפה / הפוך' }, dAmericano:{ name:'אמריקנו' }, dHotChoc:{ name:'שוקו חם / קר' }, dIcedCoffee:{ name:'קפה קר' }, dIceBlend:{ name:'אייס קפה' }, dHerbal:{ name:'חליטת צמחים' }, dTeaMint:{ name:'תה - מי נענע' }, dSahleb:{ name:'סחלב' },
+        acaiBuild:{ name:'אסאי בהרכבה "הרכבה שלנו או הרכבה עצמית"' },
+        coffeePastry:{ name:'קפה + מאפה' },
       }
-    };
+    },
 
-    /* ===== Language meta (brand + footer) ===== */
-    const META = {
-      ar: { brand: 'أصال', footer: lang => `© 2025 أصال — مصمم بأناقة 💜` },
-      he: { brand: 'אסאל', footer: lang => `© 2025 אסאל — מעוצב באלגנטיות 💜` },
-      en: { brand: 'Assal', footer: lang => `© 2025 Assal — Designed with Elegance 💜` },
-      ru: { brand: 'Ассаль', footer: lang => `© 2025 Ассаль — Создано со вкусом 💜` },
-      fr: { brand: 'Assal', footer: lang => `© 2025 Assal — Conçu avec élégance 💜` }
-    };
+    ar: {
+      dir: 'rtl', title:'Assal Port — المنيو',
+      ui:{ select:'اختر اللغة', social:'تابعنا على', instagram:'إنستغرام' },
+      categories:{ smoothies:'سموذيّات', ice:'برد طبيعي', juices:'عصاير طبيعية', fruits:'فواكه طازة', hotcold:'مشروبات سخنة وباردة', acai:'آساي حسب الطلب', coffeePastry:'قهوة + معجنات' },
+      items:{
+        summerFresh:{ name:'صيفي منعش', desc:'بطيخ، نعنع، أناناس وتوت العليق.' },
+        greenYellow:{ name:'أخضر أصفر', desc:'كيوي، موز وتفاح أخضر.' },
+        strawberryMango:{ name:'فراولة مانجو', desc:'فراولة، مانجو وبرتقال.' },
+        yourWinner:{ name:'شيككم الفائز (تركيبة شخصية)', desc:'شيك على مزاجك — اختيار حر للمكونات.' },
+        brazilExotic:{ name:'برازيلي استوائي', desc:'أساي، مانجو وموز.' },
+        peanutButter:{ name:'زبدة فول سوداني', desc:'مزيج غني من موز، زبدة فول سوداني وحليب صويا.' },
+        proteinBoost:{ name:'بروتين طاقة', desc:'موز، حليب لوز، بروتين، زبدة فول سوداني وعسل.' },
+        richBerries:{ name:'توت مشكّل غني', desc:'فراولة، ميكس توت بري، وعسل.' },
+        melonBananaDate:{ name:'شمّام موز وتمر', desc:'شمّام، موز، تمر، حليب لوز وقرفة.' },
+        mangoPine:{ name:'مانجو أناناس', desc:'مانجو، أناناس وجوز طبيعي.' },
+        tropicExotic:{ name:'استوائي غريب', desc:'مزاج منعش من مانجو، أناناس وبشّفيلورا (باشن فروت).' },
+        energy:{ name:'طاقة', desc:'أفوكادو، مانجو، موز وعسل.' },
+        strawberryBananaDream:{ name:'فراولة موز حُلْمي', desc:'فراولة، موز وعسل.' },
+        bananaDate:{ name:'موز تمر', desc:'مزيج دلّع من موز وتمور وجوز البيكان.' },
+        green:{ name:'أخضر', desc:'كرفس، خيار، زنجبيل، تفاح أخضر وعصير ليمون.' },
+        // names only for other cats
+        iceStrawberry:{ name:'توت (فراولة)' }, icePassion:{ name:'باشن' },
+        jOrange:{ name:'برتقـال' }, jCarrot:{ name:'جزر' }, jCarrotOrange:{ name:'برتقال جزر' }, jLemonade:{ name:'ليمونادة' }, jGrapefruitRed:{ name:'جريب فروت أحمر' }, jBeetGinger:{ name:'شمندر زنجبيل' }, jApple:{ name:'تفاح' }, jLimoNana:{ name:'ليمون نعنع مطحون' }, jPomegranate:{ name:'رمان (بالموسم)' }, jMojito:{ name:'موهيتو' },
+        fGrapes:{ name:'عنب' }, fPome:{ name:'رمان' }, fStraw:{ name:'فراولة' }, fWatermelon:{ name:'بطيخ' }, fPomelo:{ name:'بومِلو' }, fFruitSalad:{ name:'سلطة فواكه فردية' }, fCoconut:{ name:'جوز هند كامل طبيعي' }, fFruitPlatter:{ name:'صحن فواكه فاخر' }, fFruitPlatterLarge:{ name:'صحن فواكه كبير' },
+        dWater:{ name:'ميّه معدنية / غازية' }, dSoft:{ name:'مشروب غازي' }, dEspresso:{ name:'إسبريسو / دبل' }, dMacchiato:{ name:'ماكياتو' }, dNescafe:{ name:'نسكافيه / كافيه أو لاتي' }, dAmericano:{ name:'أميريكانو' }, dHotChoc:{ name:'شوكو حار / بارد' }, dIcedCoffee:{ name:'قهوة باردة' }, dIceBlend:{ name:'آيس كوفي' }, dHerbal:{ name:'شاي أعشاب' }, dTeaMint:{ name:'شاي مي-نعنع' }, dSahleb:{ name:'سحلب' },
+        acaiBuild:{ name:'آساي حسب الطلب "تركيبتنا أو تركيبتك"' },
+        coffeePastry:{ name:'قهوة + معجنات' },
+      }
+    },
 
-    /* ===== Build Sections ===== */
-    function buildSection(title, icon, pairs, delay) {
-      let rows = pairs.map(p => `<div class="item"><span>${p[0]}</span><span>${p[1]}</span></div>`).join('');
-      return `<section class="glass p-6 rounded-3xl fadeSlide" style="animation-delay:${delay}s"><h2>${icon}${title}</h2>${rows}</section>`;
+    ru: {
+      dir:'ltr', title:'Assal Port — Меню',
+      ui:{ select:'Выберите язык', social:'Мы в', instagram:'Instagram' },
+      categories:{ smoothies:'Смузи', ice:'Ледяной граните', juices:'Натуральные соки', fruits:'Свежие фрукты', hotcold:'Горячие и холодные напитки', acai:'Асаи на выбор', coffeePastry:'Кофе + выпечка' },
+      items:{
+        summerFresh:{ name:'Летняя свежесть', desc:'Арбуз, мята, ананас и малина.' },
+        greenYellow:{ name:'Зелёто‑жёлтый', desc:'Киви, банан и зелёное яблоко.' },
+        strawberryMango:{ name:'Клубника манго', desc:'Клубника, манго и апельсин.' },
+        yourWinner:{ name:'Ваш победный шейк', desc:'Индивидуальная сборка — на ваш вкус.' },
+        brazilExotic:{ name:'Бразильский экзотик', desc:'Асаи, манго и банан.' },
+        peanutButter:{ name:'Арахисовая паста', desc:'Банан, арахисовая паста и соевое молоко.' },
+        proteinBoost:{ name:'Энергетический протеин', desc:'Банан, миндальное молоко, протеин, арахисовая паста, мёд.' },
+        richBerries:{ name:'Богатые лесные ягоды', desc:'Клубника, микс ягод и мёд.' },
+        melonBananaDate:{ name:'Дыня банан финик', desc:'Дыня, банан, финики, миндальное молоко и корица.' },
+        mangoPine:{ name:'Манго ананас', desc:'Манго, ананас и натуральная кокосовая основа.' },
+        tropicExotic:{ name:'Тропический экзотик', desc:'Освежающая смесь манго, ананаса и маракуйи.' },
+        energy:{ name:'Энергия', desc:'Авокадо, манго, банан и мёд.' },
+        strawberryBananaDream:{ name:'Мечта: клубника банан', desc:'Клубника, банан и мёд.' },
+        bananaDate:{ name:'Банан финик', desc:'Нежный микс банана, фиников и пекана.' },
+        green:{ name:'Зелёный', desc:'Сельдерей, огурец, имбирь, зелёное яблоко и лимонный сок.' },
+        // names only others
+        iceStrawberry:{ name:'Клубника' }, icePassion:{ name:'Маракуйя' },
+        jOrange:{ name:'Апельсин' }, jCarrot:{ name:'Морковь' }, jCarrotOrange:{ name:'Апельсин‑морковь' }, jLemonade:{ name:'Лимонад' }, jGrapefruitRed:{ name:'Розовый грейпфрут' }, jBeetGinger:{ name:'Свёкла‑имбирь' }, jApple:{ name:'Яблоко' }, jLimoNana:{ name:'Лимон‑мята (дробл.)' }, jPomegranate:{ name:'Гранат (сезон)' }, jMojito:{ name:'Мохито' },
+        fGrapes:{ name:'Виноград' }, fPome:{ name:'Гранат' }, fStraw:{ name:'Клубника' }, fWatermelon:{ name:'Арбуз' }, fPomelo:{ name:'Помело' }, fFruitSalad:{ name:'Фруктовый салат (индив.)' }, fCoconut:{ name:'Целый кокос' }, fFruitPlatter:{ name:'Ассорти фруктов' }, fFruitPlatterLarge:{ name:'Ассорти фруктов — большое' },
+        dWater:{ name:'Вода минеральная / газированная' }, dSoft:{ name:'Безалкогольный напиток' }, dEspresso:{ name:'Эспрессо / двойной' }, dMacchiato:{ name:'Маккиато' }, dNescafe:{ name:'Нескафе / латте' }, dAmericano:{ name:'Американо' }, dHotChoc:{ name:'Горячий/холодный шоколад' }, dIcedCoffee:{ name:'Холодный кофе' }, dIceBlend:{ name:'Айс-кофе' }, dHerbal:{ name:'Травяной чай' }, dTeaMint:{ name:'Чай – мята' }, dSahleb:{ name:'Сахлаб' },
+        acaiBuild:{ name:'Асаи на выбор «наш рецепт или ваш»' },
+        coffeePastry:{ name:'Кофе + выпечка' },
+      }
+    },
+
+    fr: {
+      dir:'ltr', title:'Assal Port — Carte',
+      ui:{ select:'Choisir la langue', social:'Suivez‑nous sur', instagram:'Instagram' },
+      categories:{ smoothies:'Smoothies', ice:'Granité naturel', juices:'Jus naturels', fruits:'Fruits frais', hotcold:'Boissons chaudes & froides', acai:'Açaí à composer', coffeePastry:'Café + viennoiserie' },
+      items:{
+        summerFresh:{ name:'Estival rafraîchissant', desc:'Pastèque, menthe, ananas et framboise.' },
+        greenYellow:{ name:'Vert jaune', desc:'Kiwi, banane et pomme verte.' },
+        strawberryMango:{ name:'Fraise mangue', desc:'Fraise, mangue et orange.' },
+        yourWinner:{ name:'Votre shake gagnant', desc:'Assemblage personnalisé — comme vous aimez.' },
+        brazilExotic:{ name:'Brésilien exotique', desc:'Açaí, mangue et banane.' },
+        peanutButter:{ name:'Beurre de cacahuète', desc:'Banane, beurre de cacahuète et lait de soja.' },
+        proteinBoost:{ name:'Protéine énergétique', desc:'Banane, lait d’amande, protéine, beurre de cacahuète, miel.' },
+        richBerries:{ name:'Fruits des bois riches', desc:'Fraises, mix fruits des bois et miel.' },
+        melonBananaDate:{ name:'Melon banane datte', desc:'Melon, banane, dattes, lait d’amande et cannelle.' },
+        mangoPine:{ name:'Mangue ananas', desc:'Mangue, ananas et coco naturel.' },
+        tropicExotic:{ name:'Tropical exotique', desc:'Mélange rafraîchissant de mangue, ananas et fruit de la passion.' },
+        energy:{ name:'Énergie', desc:'Avocat, mangue, banane et miel.' },
+        strawberryBananaDream:{ name:'Fraise banane de rêve', desc:'Fraises, banane et miel.' },
+        bananaDate:{ name:'Banane datte', desc:'Mélange gourmand banane, dattes et pacanes.' },
+        green:{ name:'Vert', desc:'Céleri, concombre, gingembre, pomme verte et jus de citron.' },
+        // names only others
+        iceStrawberry:{ name:'Fraise' }, icePassion:{ name:'Fruit de la passion' },
+        jOrange:{ name:'Orange' }, jCarrot:{ name:'Carotte' }, jCarrotOrange:{ name:'Orange‑carotte' }, jLemonade:{ name:'Limonade' }, jGrapefruitRed:{ name:'Pamplemousse rose' }, jBeetGinger:{ name:'Betterave‑gingembre' }, jApple:{ name:'Pomme' }, jLimoNana:{ name:'Citron‑menthe concassée' }, jPomegranate:{ name:'Grenade (saison)' }, jMojito:{ name:'Mojito' },
+        fGrapes:{ name:'Raisin' }, fPome:{ name:'Grenade' }, fStraw:{ name:'Fraise' }, fWatermelon:{ name:'Pastèque' }, fPomelo:{ name:'Pomélo' }, fFruitSalad:{ name:'Salade de fruits individuelle' }, fCoconut:{ name:'Noix de coco entière' }, fFruitPlatter:{ name:'Plateau de fruits gourmand' }, fFruitPlatterLarge:{ name:'Grand plateau de fruits' },
+        dWater:{ name:'Eau minérale / gazeuse' }, dSoft:{ name:'Boisson gazeuse' }, dEspresso:{ name:'Espresso / double' }, dMacchiato:{ name:'Macchiato' }, dNescafe:{ name:'Nescafé / café au lait' }, dAmericano:{ name:'Américano' }, dHotChoc:{ name:'Chocolat chaud / froid' }, dIcedCoffee:{ name:'Café glacé' }, dIceBlend:{ name:'Ice coffee' }, dHerbal:{ name:'Infusion' }, dTeaMint:{ name:'Thé – menthe' }, dSahleb:{ name:'Sahlab' },
+        acaiBuild:{ name:'Açaí « notre recette ou la vôtre »' },
+        coffeePastry:{ name:'Café + viennoiserie' },
+      }
+    }
+  };
+
+  // --------- Rendering ---------
+  let currentLang = 'he';
+
+  function money(p){
+    if(!p) return '';
+    const {s,l} = p; // small/large
+    if(s && l) return `${s} | ${l} ₪`;
+    if(l && !s) return `${l} ₪`;
+    if(s && !l) return `${s} ₪`;
+    return '';
+  }
+
+  function renderMenu(){
+    const L = T[currentLang];
+    document.documentElement.lang = currentLang;
+    document.documentElement.dir = L.dir || 'ltr';
+    document.getElementById('menuTitle').textContent = L.title;
+
+    const wrap = document.getElementById('categories');
+    wrap.innerHTML = '';
+
+    // Group items by category
+    const byCat = {};
+    for(const [id, it] of Object.entries(DATA.items)){
+      (byCat[it.cat] ||= []).push({ id, ...it });
     }
 
-    function renderMenu(lang) {
-      const dir = (lang==='ar' || lang==='he') ? 'rtl' : 'ltr';
-      document.documentElement.dir = dir;
-      document.documentElement.lang = lang;
-      document.getElementById('site-title').textContent = META[lang].brand;
-      footerText.textContent = META[lang].footer(lang);
+    // Category order from DATA.categories
+    DATA.categories.forEach(cat => {
+      const items = (byCat[cat.id]||[]);
+      if(!items.length) return;
 
-      menu.innerHTML = '';
-      const T = DATA.titles[lang];
-      const I = DATA.items;
+      const catDiv = document.createElement('section');
+      catDiv.className = 'category';
 
-      let d = 0.15;
-      menu.innerHTML += buildSection(T.shakes, icons.shakes, I.shakes[lang], d); d+=0.15;
-      menu.innerHTML += buildSection(T.barad,  icons.barad,  I.barad[lang],  d); d+=0.15;
-      menu.innerHTML += buildSection(T.juices, icons.juices, I.juices[lang], d); d+=0.15;
-      menu.innerHTML += buildSection(T.fruits, icons.fruits, I.fruits[lang], d); d+=0.15;
-      menu.innerHTML += buildSection(T.coffee, icons.coffee, I.coffee[lang], d); d+=0.15;
-      menu.innerHTML += buildSection(T.acai,   icons.acai,   I.acai[lang],   d); d+=0.15;
-      menu.innerHTML += buildSection(T.bakery, icons.bakery, I.bakery[lang], d);
-    }
+      const title = document.createElement('div');
+      title.className = 'cat-title';
+      const h2 = document.createElement('h2');
+      h2.textContent = L.categories[cat.id] || cat.id;
+      title.appendChild(h2);
+      catDiv.appendChild(title);
 
-    /* ===== Language Gate -> Render ===== */
-    document.querySelectorAll('.lang-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const lang = btn.dataset.lang;
-        langScreen.style.display = 'none';
-        mainHeader.classList.remove('hidden');
-        menu.classList.remove('hidden');
-        footer.classList.remove('hidden');
-        renderMenu(lang);
+      items.forEach(it => {
+        const tr = L.items[it.id] || { name: it.id };
+        const item = document.createElement('div');
+        item.className = 'item';
+
+        const row = document.createElement('div');
+        row.className = 'row';
+        const name = document.createElement('div');
+        name.className = 'name';
+        name.textContent = tr.name || it.id;
+        const price = document.createElement('div');
+        price.className = 'price';
+        price.textContent = money(it.prices);
+        row.appendChild(name); row.appendChild(price);
+
+        item.appendChild(row);
+
+        if(tr.desc){
+          const desc = document.createElement('div');
+          desc.className = 'desc';
+          desc.textContent = tr.desc;
+          item.appendChild(desc);
+        }
+
+        catDiv.appendChild(item);
       });
+
+      wrap.appendChild(catDiv);
     });
+
+    // social
+    const social = document.getElementById('social');
+    social.innerHTML = `${L.ui.social} <a target="_blank" href="https://www.instagram.com/assal_port?utm_source=qr&igsh=ejIyMWNrMm9wNXh5">${L.ui.instagram}</a>`;
+  }
+
+  function setLang(code){
+    currentLang = code in T ? code : 'he';
+    document.getElementById('language-select').style.display = 'none';
+    document.getElementById('menu').style.display = 'block';
+    renderMenu();
+  }
+
+  // Loading -> Language gate
+  setTimeout(()=>{
+    document.getElementById('loading').style.display='none';
+    document.getElementById('language-select').style.display='flex';
+    // set initial text of the select title (will be he by default)
+    document.querySelector('.lang-title').textContent = T.he.ui.select + ' / اختر اللغة';
+  }, 2000);
   </script>
 </body>
 </html>
