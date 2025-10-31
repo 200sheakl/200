@@ -164,6 +164,7 @@
       fStraw:    { cat:'fruits', prices: PR(null,20) },
       fWatermelon:{ cat:'fruits', prices: PR(null,20) },
       fPomelo:   { cat:'fruits', prices: PR(null,20) },
+      fPineapple:{ cat:'fruits', prices: PR(null,20) }, // ✅ ADDED pineapple
       fFruitSalad:{ cat:'fruits', prices: PR(null,25) },
       fCoconut:  { cat:'fruits', prices: PR(null,27) },
       fFruitPlatter:{ cat:'fruits', prices: PR(null,45) },
@@ -235,7 +236,9 @@
         // other categories (names only)
         iceStrawberry:{ name:'תות' }, icePassion:{ name:'פסיפלורה' },
         jOrange:{ name:'תפוז' }, jCarrot:{ name:'גזר' }, jCarrotOrange:{ name:'תפוגזר' }, jLemonade:{ name:'לימונדה' }, jGrapefruitRed:{ name:'אשכולית אדומה' }, jBeetGinger:{ name:'סלק ג\'ינג\'ר' }, jApple:{ name:'תפוח' }, jLimoNana:{ name:'לימונענע גרוס' }, jPomegranate:{ name:'רימון (בעונה)' }, jMojito:{ name:'מוחיטו' },
-        fGrapes:{ name:'ענבים' }, fPome:{ name:'רימון' }, fStraw:{ name:'תות' }, fWatermelon:{ name:'אבטיח' }, fPomelo:{ name:'פומלה' }, fFruitSalad:{ name:'סלט פירות אישי' }, fCoconut:{ name:'קוקוס שלם טבעי' }, fFruitPlatter:{ name:'מגש פירות מפנק' }, fFruitPlatterLarge:{ name:'מגש פירות גדול' },
+        fGrapes:{ name:'ענבים' }, fPome:{ name:'רימון' }, fStraw:{ name:'תות' }, fWatermelon:{ name:'אבטיח' }, fPomelo:{ name:'פומלה' }, 
+        fPineapple:{ name:'אננס' }, /* ✅ ADDED translation */
+        fFruitSalad:{ name:'סלט פירות אישי' }, fCoconut:{ name:'קוקוס שלם טבעי' }, fFruitPlatter:{ name:'מגש פירות מפנק' }, fFruitPlatterLarge:{ name:'מגש פירות גדול' },
         dWater:{ name:'מים מינרליים / מוגזים' }, dSoft:{ name:'שתייה קלה' }, dEspresso:{ name:'אספרסו / כפול' }, dMacchiato:{ name:'מקיאטו' }, dNescafe:{ name:'נס קפה / הפוך' }, dAmericano:{ name:'אמריקנו' }, dHotChoc:{ name:'שוקו חם / קר' }, dIcedCoffee:{ name:'קפה קר' }, dIceBlend:{ name:'אייס קפה' }, dHerbal:{ name:'חליטת צמחים' }, dTeaMint:{ name:'תה - מי נענע' }, dSahleb:{ name:'סחלב' },
         acaiBuild:{ name:'אסאי בהרכבה "הרכבה שלנו או הרכבה עצמית"' },
         coffeePastry:{ name:'קפה + מאפה' },
@@ -293,7 +296,9 @@
         // names only for other cats
         iceStrawberry:{ name:'توت (فراولة)' }, icePassion:{ name:'بسفلوره' },
         jOrange:{ name:'برتقـال' }, jCarrot:{ name:'جزر' }, jCarrotOrange:{ name:'برتقال جزر' }, jLemonade:{ name:'ليمونادة' }, jGrapefruitRed:{ name:'جريب فروت أحمر' }, jBeetGinger:{ name:'شمندر زنجبيل' }, jApple:{ name:'تفاح' }, jLimoNana:{ name:'ليمون نعنع مطحون' }, jPomegranate:{ name:'رمان (بالموسم)' }, jMojito:{ name:'موهيتو' },
-        fGrapes:{ name:'عنب' }, fPome:{ name:'رمان' }, fStraw:{ name:'فراولة' }, fWatermelon:{ name:'بطيخ' }, fPomelo:{ name:'بومِلو' }, fFruitSalad:{ name:'سلطة فواكه فردية' }, fCoconut:{ name:'جوز هند كامل طبيعي' }, fFruitPlatter:{ name:'صحن فواكه فاخر' }, fFruitPlatterLarge:{ name:'صحن فواكه كبير' },
+        fGrapes:{ name:'عنب' }, fPome:{ name:'رمان' }, fStraw:{ name:'فراولة' }, fWatermelon:{ name:'بطيخ' }, fPomelo:{ name:'بومِلو' },
+        fPineapple:{ name:'أناناس' }, /* ✅ */
+        fFruitSalad:{ name:'سلطة فواكه فردية' }, fCoconut:{ name:'جوز هند كامل طبيعي' }, fFruitPlatter:{ name:'صحن فواكه فاخر' }, fFruitPlatterLarge:{ name:'صحن فواكه كبير' },
         dWater:{ name:'ميّه معدنية / غازية' }, dSoft:{ name:'مشروب غازي' }, dEspresso:{ name:'إسبريسو / دبل' }, dMacchiato:{ name:'ماكياتو' }, dNescafe:{ name:'نسكافيه / كافيه أو لاتي' }, dAmericano:{ name:'أميريكانو' }, dHotChoc:{ name:'شوكو حار / بارد' }, dIcedCoffee:{ name:'قهوة باردة' }, dIceBlend:{ name:'آيس كوفي' }, dHerbal:{ name:'شاي أعشاب' }, dTeaMint:{ name:'شاي مي-نعنع' }, dSahleb:{ name:'سحلب' },
         acaiBuild:{ name:'آساي حسب الطلب "تركيبتنا أو تركيبتك"' },
         coffeePastry:{ name:'قهوة + كوروسون' },
@@ -322,7 +327,7 @@
         desserts:'Десерты & вкусняшки' },
       items:{
         summerFresh:{ name:'Летняя свежесть', desc:'Арбуз, мята, ананас и малина.' },
-        greenYellow:{ name:'Зелёто‑жёлтый', desc:'Киви, банан и зелёное яблоко.' },
+        greenYellow:{ name:'Зелёто-жёлтый', desc:'Киви, банан и зелёное яблоко.' },
         strawberryMango:{ name:'Клубника манго', desc:'Клубника, манго и апельсин.' },
         yourWinner:{ name:'Ваш победный шейк', desc:'Индивидуальная сборка — на ваш вкус.' },
         brazilExotic:{ name:'Бразильский экзотик', desc:'Асаи, манго и банан.' },
@@ -338,8 +343,10 @@
         green:{ name:'Зелёный', desc:'Сельдерей, огурец, имбирь, зелёное яблоко и лимонный сок.' },
         // names only others
         iceStrawberry:{ name:'Клубника' }, icePassion:{ name:'Маракуйя' },
-        jOrange:{ name:'Апельсин' }, jCarrot:{ name:'Морковь' }, jCarrotOrange:{ name:'Апельсин‑морковь' }, jLemonade:{ name:'Лимонад' }, jGrapefruitRed:{ name:'Розовый грейпфрут' }, jBeetGinger:{ name:'Свёкла‑имбирь' }, jApple:{ name:'Яблоко' }, jLimoNana:{ name:'Лимон‑мята (дробл.)' }, jPomegranate:{ name:'Гранат (сезон)' }, jMojito:{ name:'Мохито' },
-        fGrapes:{ name:'Виноград' }, fPome:{ name:'Гранат' }, fStraw:{ name:'Клубника' }, fWatermelon:{ name:'Арбуз' }, fPomelo:{ name:'Помело' }, fFruitSalad:{ name:'Фруктовый салат (индив.)' }, fCoconut:{ name:'Целый кокос' }, fFruitPlatter:{ name:'Ассорти фруктов' }, fFruitPlatterLarge:{ name:'Ассорти фруктов — большое' },
+        jOrange:{ name:'Апельсин' }, jCarrot:{ name:'Морковь' }, jCarrotOrange:{ name:'Апельсин-морковь' }, jLemonade:{ name:'Лимонад' }, jGrapefruitRed:{ name:'Розовый грейпфрут' }, jBeetGinger:{ name:'Свёкла-имбирь' }, jApple:{ name:'Яблоко' }, jLimoNana:{ name:'Лимон-мята (дробл.)' }, jPomegranate:{ name:'Гранат (сезон)' }, jMojito:{ name:'Мохито' },
+        fGrapes:{ name:'Виноград' }, fPome:{ name:'Гранат' }, fStraw:{ name:'Клубника' }, fWatermelon:{ name:'Арбуз' }, fPomelo:{ name:'Помело' },
+        fPineapple:{ name:'Ананас' }, /* ✅ */
+        fFruitSalad:{ name:'Фруктовый салат (индив.)' }, fCoconut:{ name:'Целый кокос' }, fFruitPlatter:{ name:'Ассорти фруктов' }, fFruitPlatterLarge:{ name:'Ассорти фруктов — большое' },
         dWater:{ name:'Вода минеральная / газированная' }, dSoft:{ name:'Безалкогольный напиток' }, dEspresso:{ name:'Эспрессо / двойной' }, dMacchiato:{ name:'Маккиато' }, dNescafe:{ name:'Нескафе / латте' }, dAmericano:{ name:'Американо' }, dHotChoc:{ name:'Горячий/холодный шоколад' }, dIcedCoffee:{ name:'Холодный кофе' }, dIceBlend:{ name:'Айс-кофе' }, dHerbal:{ name:'Травяной чай' }, dTeaMint:{ name:'Чай – мята' }, dSahleb:{ name:'Сахлаб' },
         acaiBuild:{ name:'Асаи на выбор «наш рецепт или ваш»' },
         coffeePastry:{ name:'Кофе + выпечка' },
@@ -363,7 +370,7 @@
 
     fr: {
       dir:'ltr', title:'Assal Port — Carte',
-      ui:{ select:'Choisir la langue', social:'Suivez‑nous sur', instagram:'Instagram' },
+      ui:{ select:'Choisir la langue', social:'Suivez-nous sur', instagram:'Instagram' },
       categories:{ smoothies:'Smoothies', ice:'Granité naturel', juices:'Jus naturels', fruits:'Fruits frais', hotcold:'Boissons chaudes & froides', acai:'Açaí à composer', coffeePastry:'Café + viennoiserie',
         desserts:'Desserts & délicieux' },
       items:{
@@ -384,8 +391,10 @@
         green:{ name:'Vert', desc:'Céleri, concombre, gingembre, pomme verte et jus de citron.' },
         // names only others
         iceStrawberry:{ name:'Fraise' }, icePassion:{ name:'Fruit de la passion' },
-        jOrange:{ name:'Orange' }, jCarrot:{ name:'Carotte' }, jCarrotOrange:{ name:'Orange‑carotte' }, jLemonade:{ name:'Limonade' }, jGrapefruitRed:{ name:'Pamplemousse rose' }, jBeetGinger:{ name:'Betterave‑gingembre' }, jApple:{ name:'Pomme' }, jLimoNana:{ name:'Citron‑menthe concassée' }, jPomegranate:{ name:'Grenade (saison)' }, jMojito:{ name:'Mojito' },
-        fGrapes:{ name:'Raisin' }, fPome:{ name:'Grenade' }, fStraw:{ name:'Fraise' }, fWatermelon:{ name:'Pastèque' }, fPomelo:{ name:'Pomélo' }, fFruitSalad:{ name:'Salade de fruits individuelle' }, fCoconut:{ name:'Noix de coco entière' }, fFruitPlatter:{ name:'Plateau de fruits gourmand' }, fFruitPlatterLarge:{ name:'Grand plateau de fruits' },
+        jOrange:{ name:'Orange' }, jCarrot:{ name:'Carotte' }, jCarrotOrange:{ name:'Orange-carotte' }, jLemonade:{ name:'Limonade' }, jGrapefruitRed:{ name:'Pamplemousse rose' }, jBeetGinger:{ name:'Betterave-gingembre' }, jApple:{ name:'Pomme' }, jLimoNana:{ name:'Citron-menthe concassée' }, jPomegranate:{ name:'Grenade (saison)' }, jMojito:{ name:'Mojito' },
+        fGrapes:{ name:'Raisin' }, fPome:{ name:'Grenade' }, fStraw:{ name:'Fraise' }, fWatermelon:{ name:'Pastèque' }, fPomelo:{ name:'Pomélo' },
+        fPineapple:{ name:'Ananas' }, /* ✅ */
+        fFruitSalad:{ name:'Salade de fruits individuelle' }, fCoconut:{ name:'Noix de coco entière' }, fFruitPlatter:{ name:'Plateau de fruits gourmand' }, fFruitPlatterLarge:{ name:'Grand plateau de fruits' },
         dWater:{ name:'Eau minérale / gazeuse' }, dSoft:{ name:'Boisson gazeuse' }, dEspresso:{ name:'Espresso / double' }, dMacchiato:{ name:'Macchiato' }, dNescafe:{ name:'Nescafé / café au lait' }, dAmericano:{ name:'Américano' }, dHotChoc:{ name:'Chocolat chaud / froid' }, dIcedCoffee:{ name:'Café glacé' }, dIceBlend:{ name:'Ice coffee' }, dHerbal:{ name:'Infusion' }, dTeaMint:{ name:'Thé – menthe' }, dSahleb:{ name:'Sahlab' },
         acaiBuild:{ name:'Açaí « notre recette ou la vôtre »' },
         coffeePastry:{ name:'Café + viennoiserie' },
@@ -434,7 +443,9 @@
         // Juices
         jOrange:{ name:'Orange' }, jCarrot:{ name:'Carrot' }, jCarrotOrange:{ name:'Carrot Orange' }, jLemonade:{ name:'Lemonade' }, jGrapefruitRed:{ name:'Red Grapefruit' }, jBeetGinger:{ name:'Beet Ginger' }, jApple:{ name:'Apple' }, jLimoNana:{ name:'Lemon Mint' }, jPomegranate:{ name:'Pomegranate (Seasonal)' }, jMojito:{ name:'Mojito' },
         // Fruits
-        fGrapes:{ name:'Grapes' }, fPome:{ name:'Pomegranate' }, fStraw:{ name:'Strawberry' }, fWatermelon:{ name:'Watermelon' }, fPomelo:{ name:'Pomelo' }, fFruitSalad:{ name:'Fruit Salad (Personal)' }, fCoconut:{ name:'Whole Coconut' }, fFruitPlatter:{ name:'Fruit Platter' }, fFruitPlatterLarge:{ name:'Large Fruit Platter' },
+        fGrapes:{ name:'Grapes' }, fPome:{ name:'Pomegranate' }, fStraw:{ name:'Strawberry' }, fWatermelon:{ name:'Watermelon' }, fPomelo:{ name:'Pomelo' },
+        fPineapple:{ name:'Pineapple' }, /* ✅ */
+        fFruitSalad:{ name:'Fruit Salad (Personal)' }, fCoconut:{ name:'Whole Coconut' }, fFruitPlatter:{ name:'Fruit Platter' }, fFruitPlatterLarge:{ name:'Large Fruit Platter' },
         // Hot & Cold
         dWater:{ name:'Water (Still / Sparkling)' }, dSoft:{ name:'Soft Drink' }, dEspresso:{ name:'Espresso / Double' }, dMacchiato:{ name:'Macchiato' }, dNescafe:{ name:'Nescafe / Latte' }, dAmericano:{ name:'Americano' }, dHotChoc:{ name:'Hot / Cold Chocolate' }, dIcedCoffee:{ name:'Iced Coffee' }, dIceBlend:{ name:'Ice Blend' }, dHerbal:{ name:'Herbal Tea' }, dTeaMint:{ name:'Tea – Mint' }, dSahleb:{ name:'Sahlab' },
         // Açaí
