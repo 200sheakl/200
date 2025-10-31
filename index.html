@@ -7,31 +7,32 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     :root{
-      --purple:#6e3fa9; /* brand purple */
-      --bg1:#12001a;   /* deep purple-black */
-      --bg2:#2e004f;   /* gradient purple */
+      --purple:#6e3fa9;
+      --bg1:#12001a;
+      --bg2:#2e004f;
       --glass: rgba(255, 255, 255, 0.07);
       --stroke: rgba(255,255,255,.18);
-      --accent:#ff3b5c; /* tiny red accent */
+      --accent:#ff3b5c;
     }
     body{
-      font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans", "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans", "Helvetica Neue", Arial;
       background: radial-gradient(1200px 600px at 70% 10%, rgba(255,59,92,.15), transparent 60%),
                   linear-gradient(135deg, var(--bg1), var(--bg2));
-      color: #fff;
-      overflow-x: hidden;
-      min-height: 100vh;
+      color: #fff; overflow-x: hidden; min-height: 100vh;
     }
-    /* Loading */
-    #loading{
-      position: fixed; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:18px;
-      background: linear-gradient(135deg, var(--bg1), var(--bg2)); z-index:9999;
-    }
-    #loading img{ width: 180px; filter: drop-shadow(0 10px 30px rgba(0,0,0,.4)); animation: fadeIn 1.2s ease both; }
-    #loading h1{ letter-spacing: 3px; opacity:.9; animation: fadeIn 1.6s .2s ease both; }
-    @keyframes fadeIn{ from{ opacity:0; transform: translateY(6px);} to{ opacity:1; transform:none;}}
 
-    /* Language Gate */
+    /* ===== Splash (one screen only) ===== */
+    #splash{
+      position: fixed; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:18px;
+      background: linear-gradient(135deg, var(--bg1), var(--bg2)); z-index:9999; transition: opacity 800ms ease;
+    }
+    #splash.hide{ opacity:0; pointer-events:none; }
+
+    #splash .logo{ width: 180px; height:180px; border-radius:999px; background:#5f3a90; border:1px solid var(--stroke);
+      display:flex; align-items:center; justify-content:center; box-shadow: 0 10px 40px rgba(0,0,0,.35);}
+    #splash h1{ letter-spacing: 3px; opacity:.95; }
+
+    /* ===== Language Gate & Menu ===== */
     #language-select{ display:none; min-height:100vh; align-items:center; justify-content:center; flex-direction:column; gap:20px; }
     .lang-panel{
       background: var(--glass); backdrop-filter: blur(16px); border:1px solid var(--stroke);
@@ -45,18 +46,16 @@
     }
     .lang-btn:hover{ transform: translateY(-1px); box-shadow: 0 8px 24px rgba(110,63,169,.35); }
 
-    /* Menu */
     #menu{ display:none; max-width:1000px; margin:42px auto; padding:0 18px 40px; }
     .brand{ display:flex; align-items:center; justify-content:center; gap:12px; margin-bottom:22px; }
     .brand img{ width:70px; height:70px; border-radius:999px; background:#5f3a90; border:1px solid var(--stroke); }
     .brand h1{ font-size:clamp(26px, 4vw, 40px); color:#d7b7ff; letter-spacing:.5px; }
 
     .glass{ background: var(--glass); border:1px solid var(--stroke); backdrop-filter: blur(22px); border-radius: 22px; padding:26px; box-shadow: 0 0 50px rgba(255,59,92,.15); }
-
     .grid{ display:grid; grid-template-columns: 1fr; gap:20px; }
     @media(min-width:820px){ .grid{ grid-template-columns: 1fr 1fr; } }
 
-    .category{ padding:18px 18px 16px; border-radius:18px; border:1px solid var(--stroke); background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02)); }
+    .category{ padding:18px; border-radius:18px; border:1px solid var(--stroke); background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02)); }
     .cat-title{ display:flex; align-items:center; justify-content:space-between; border-bottom:1px dashed var(--stroke); padding-bottom:10px; margin-bottom:14px; }
     .cat-title h2{ font-size:clamp(18px,2.6vw,22px); color:#ff9de3; font-weight:600; }
 
@@ -73,16 +72,17 @@
   </style>
 </head>
 <body>
-  <!-- Loading Screen -->
-  <div id="loading">
-    <img src="Logo.png" alt="Assal Port Logo" />
+
+  <!-- Single Splash Screen (3s) -->
+  <div id="splash">
+    <div class="logo"><img src="Logo.png" alt="Assal Port Logo" style="width:120px;height:120px;border-radius:50%;" /></div>
     <h1>Assal Port</h1>
   </div>
 
   <!-- Language Selection -->
   <section id="language-select">
     <div class="lang-panel">
-      <h2 class="lang-title" data-i18n="ui.select">Select Language</h2>
+      <h2 class="lang-title" data-i18n="ui.select">Select Language / اختر اللغة</h2>
       <div style="text-align:center">
         <button class="lang-btn" onclick="setLang('he')">עברית</button>
         <button class="lang-btn" onclick="setLang('ar')">عربي</button>
@@ -122,10 +122,11 @@
       { id: 'hotcold' },
       { id: 'acai' },
       { id: 'coffeePastry' },
-      { id: 'desserts' }, // NEW: Desserts
+      { id: 'desserts' },
+      { id: 'snacks' },   // NEW: مسليات
     ],
     items: {
-      // --- Smoothies (with descriptions) ---
+      // --- Smoothies ---
       summerFresh:   { cat:'smoothies', prices: PR(22,26) },
       greenYellow:   { cat:'smoothies', prices: PR(22,26) },
       strawberryMango:{ cat:'smoothies', prices: PR(22,26) },
@@ -146,7 +147,7 @@
       iceStrawberry: { cat:'ice', prices: PR(15,20) },
       icePassion:    { cat:'ice', prices: PR(15,20) },
 
-      // --- Natural Juices (סחוסים טבעיים) ---
+      // --- Natural Juices ---
       jOrange:   { cat:'juices', prices: PR(15,20) },
       jCarrot:   { cat:'juices', prices: PR(15,20) },
       jCarrotOrange:{ cat:'juices', prices: PR(15,20) },
@@ -164,7 +165,7 @@
       fStraw:    { cat:'fruits', prices: PR(null,20) },
       fWatermelon:{ cat:'fruits', prices: PR(null,20) },
       fPomelo:   { cat:'fruits', prices: PR(null,20) },
-      fPineapple:{ cat:'fruits', prices: PR(null,20) }, // ✅ ADDED pineapple
+      fPineapple:{ cat:'fruits', prices: PR(null,20) },
       fFruitSalad:{ cat:'fruits', prices: PR(null,25) },
       fCoconut:  { cat:'fruits', prices: PR(null,27) },
       fFruitPlatter:{ cat:'fruits', prices: PR(null,45) },
@@ -190,8 +191,7 @@
       // --- Coffee + Pastry ---
       coffeePastry:{ cat:'coffeePastry', prices: PR(null,16) },
 
-      // --- NEW: Desserts ---
-      // --- Desserts (updated) ---
+      // --- Desserts (kept) ---
       dDubai:{ cat:'desserts', prices: PR(null,25) },
       dMix:{ cat:'desserts', prices: PR(null,38) },
       dKnafeh:{ cat:'desserts', prices: PR(38,42) },
@@ -199,12 +199,13 @@
       dMalabi:{ cat:'desserts', prices: PR(null,12) },
       dWaria:{ cat:'desserts', prices: PR(null,16) },
       dCroissantPistachio:{ cat:'desserts', prices: PR(null,22) },
-      dCorn:{ cat:'desserts', prices: PR(15,20) },
-      dChestnuts:{ cat:'desserts', prices: PR(null,25) },
-      dLupin:{ cat:'desserts', prices: PR(null,20) },
-      dAlmonds:{ cat:'desserts', prices: PR(null,23) },
 
-                                  }
+      // --- NEW: Snacks (moved) ---
+      dCorn:{ cat:'snacks', prices: PR(15,20) },
+      dChestnuts:{ cat:'snacks', prices: PR(null,25) },
+      dLupin:{ cat:'snacks', prices: PR(null,20) },
+      dAlmonds:{ cat:'snacks', prices: PR(null,23) },
+    }
   };
 
   // --------- Translations ---------
@@ -214,256 +215,158 @@
       ui: { select:'בחר שפה', social:'עקבו אחרינו ב־', instagram:'Instagram' },
       categories: {
         smoothies:'שייקים', ice:'ברד טבעי', juices:'סחוסים טבעיים', fruits:'פירות טריים', hotcold:'משקאות חמים וקרים', acai:'אסאי בהרכבה', coffeePastry:'קפה + מאפה',
-        desserts:'קינוחים & טעימים' // NEW
+        desserts:'קינוחים & טעימים', snacks:'נשנושים'
       },
       items: {
-        // smoothies names & desc
         summerFresh:{ name:'קייצי מרענן', desc:'אבטיח, נענע, אננס ופטל.' },
         greenYellow:{ name:'ירוק צהוב', desc:'קיווי, בננה ותפוח ירוק.' },
         strawberryMango:{ name:'תות מנגו', desc:'תות, מנגו ותפוז.' },
         yourWinner:{ name:'השייק שלכם מנצח', desc:'שייק בהרכבה אישית.' },
         brazilExotic:{ name:'ברזילאי אקזוטי', desc:'אסאי, מנגו ובננה.' },
-        peanutButter:{ name:'חמאת בוטנים', desc:'שילוב עשיר של בננה, חמאת בוטנים וחלב סויה.' },
+        peanutButter:{ name:'חמאת בוטנים', desc:'בננה, חמאת בוטנים וחלב סויה.' },
         proteinBoost:{ name:'חלבון אנרגטי', desc:'בננה, חלב שקדים, אבקת חלבון, חמאת בוטנים ודבש.' },
         richBerries:{ name:'פירות יער עשיר', desc:'תותים, מיקס פירות יער, ודבש.' },
         melonBananaDate:{ name:'מלון בננה ותמר', desc:'מלון, בננה, תמרים, חלב שקדים וקינמון.' },
         mangoPine:{ name:'מנגו אננס', desc:'מנגו, אננס וקוקוס טבעי.' },
         tropicExotic:{ name:'טרופי אקזוטי', desc:'שילוב מרענן של מנגו, אננס ופסיפלורה.' },
-        energy:{ name:'אנרגיה', desc:'שילוב בריא של אבוקדו, מנגו, בננה ודבש.' },
+        energy:{ name:'אנרגיה', desc:'אבוקדו, מנגו, בננה ודבש.' },
         strawberryBananaDream:{ name:'תות בננה חלומי', desc:'תותים, בננה ודבש.' },
         bananaDate:{ name:'בננה תמר', desc:'שילוב מפנק של בננה, תמר, ואפקאן.' },
-        green:{ name:'ירוק', desc:'שילוב מרענן של סלרי, מלפפון, ג\'ינג\'ר, תפוח ירוק ומיץ לימון.' },
-        // other categories (names only)
+        green:{ name:'ירוק', desc:'סלרי, מלפפון, ג׳ינג׳ר, תפוח ירוק ומיץ לימון.' },
         iceStrawberry:{ name:'תות' }, icePassion:{ name:'פסיפלורה' },
-        jOrange:{ name:'תפוז' }, jCarrot:{ name:'גזר' }, jCarrotOrange:{ name:'תפוגזר' }, jLemonade:{ name:'לימונדה' }, jGrapefruitRed:{ name:'אשכולית אדומה' }, jBeetGinger:{ name:'סלק ג\'ינג\'ר' }, jApple:{ name:'תפוח' }, jLimoNana:{ name:'לימונענע גרוס' }, jPomegranate:{ name:'רימון (בעונה)' }, jMojito:{ name:'מוחיטו' },
-        fGrapes:{ name:'ענבים' }, fPome:{ name:'רימון' }, fStraw:{ name:'תות' }, fWatermelon:{ name:'אבטיח' }, fPomelo:{ name:'פומלה' }, 
-        fPineapple:{ name:'אננס' }, /* ✅ ADDED translation */
+        jOrange:{ name:'תפוז' }, jCarrot:{ name:'גזר' }, jCarrotOrange:{ name:'תפוגזר' }, jLemonade:{ name:'לימונדה' }, jGrapefruitRed:{ name:'אשכולית אדומה' }, jBeetGinger:{ name:'סלק ג׳ינג׳ר' }, jApple:{ name:'תפוח' }, jLimoNana:{ name:'לימונענע גרוס' }, jPomegranate:{ name:'רימון (בעונה)' }, jMojito:{ name:'מוחיטו' },
+        fGrapes:{ name:'ענבים' }, fPome:{ name:'רימון' }, fStraw:{ name:'תות' }, fWatermelon:{ name:'אבטיח' }, fPomelo:{ name:'פומלה' }, fPineapple:{ name:'אננס' },
         fFruitSalad:{ name:'סלט פירות אישי' }, fCoconut:{ name:'קוקוס שלם טבעי' }, fFruitPlatter:{ name:'מגש פירות מפנק' }, fFruitPlatterLarge:{ name:'מגש פירות גדול' },
         dWater:{ name:'מים מינרליים / מוגזים' }, dSoft:{ name:'שתייה קלה' }, dEspresso:{ name:'אספרסו / כפול' }, dMacchiato:{ name:'מקיאטו' }, dNescafe:{ name:'נס קפה / הפוך' }, dAmericano:{ name:'אמריקנו' }, dHotChoc:{ name:'שוקו חם / קר' }, dIcedCoffee:{ name:'קפה קר' }, dIceBlend:{ name:'אייס קפה' }, dHerbal:{ name:'חליטת צמחים' }, dTeaMint:{ name:'תה - מי נענע' }, dSahleb:{ name:'סחלב' },
-        acaiBuild:{ name:'אסאי בהרכבה "הרכבה שלנו או הרכבה עצמית"' },
+        acaiBuild:{ name:'אסאי בהרכבה "שלנו או שלך"' },
         coffeePastry:{ name:'קפה + מאפה' },
-
-        // NEW Desserts (with descriptions)
-
-        dDubai:{ name:'שוקולד דובאי', desc:'עוגת שוקולד עשירה עם טעם חלומי.' },
-        dMix:{ name:'קינוחים', desc:'מבחר קינוחים טריים מתחלפים.' },
-        dKnafeh:{ name:'כנאפה', desc:'קינוח מזרחי חם עם גבינה מתוקה. עם גלידה – 42 ₪' },
-        dSouffle:{ name:'סופלה', desc:'עוגת שוקולד חמה מוגשת עם גלידה וניל.' },
-        dMalabi:{ name:'מהלבי', desc:'מלבי קר עם סירופ ורדים ואגוזים.' },
-        dWaria:{ name:'וואריא', desc:'ממתק קלאסי במרקם ייחודי.' },
-        dCroissantPistachio:{ name:'קרואסון עם תוספת פיסטוק או שוקולד', desc:'מאפה עשיר עם מילוי לבחירה.' },
-        dCorn:{ name:'תירס חם', desc:'תירס חם עם חמאה או מלח.' },
-        dChestnuts:{ name:'ערמונים', desc:'15 יחידות ערמונים קלויים טריים.' },
+        dDubai:{ name:'שוקולד דובאי', desc:'עוגת שוקולד עשירה.' },
+        dMix:{ name:'קינוחים', desc:'מבחר קינוחים טריים.' },
+        dKnafeh:{ name:'כנאפה', desc:'עם גלידה – 42 ₪' },
+        dSouffle:{ name:'סופלה', desc:'עוגת שוקולד חמה עם גלידה.' },
+        dMalabi:{ name:'מלבי', desc:'מלבי קר עם סירופ ורדים ואגוזים.' },
+        dWaria:{ name:'וואריא', desc:'ממתק קלאסי.' },
+        dCroissantPistachio:{ name:'קרואסון פיסטוק/שוקולד', desc:'מאפה עשיר במילוי לבחירה.' },
+        dCorn:{ name:'תירס חם', desc:'עם חמאה או מלח.' },
+        dChestnuts:{ name:'ערמונים', desc:'15 יח׳ קלויים טריים.' },
         dLupin:{ name:'טורמוס', desc:'קטנית מבושלת ומומלחת.' },
         dAlmonds:{ name:'שקדיים', desc:'שקדים מתוקים קלויים.' },
-
-        dDubai:{ name:'שוקולד דובאי', desc:'עוגת שוקולד עשירה עם טעם חלומי.' },
-        dMix:{ name:'קינוחים', desc:'מבחר קינוחים טריים מתחלפים.' },
-        dKnafeh:{ name:'כנאפה', desc:'קינוח מזרחי חם עם גבינה מתוקה. עם גלידה – 42 ₪' },
-        dSouffle:{ name:'סופלה', desc:'עוגת שוקולד חמה מוגשת עם גלידה וניל.' },
-        dMalabi:{ name:'מהלבי', desc:'מלבי קר עם סירופ ורדים ואגוזים.' },
-        dWaria:{ name:'וואריא', desc:'ממתק קלאסי במרקם ייחודי.' },
-        dCroissantPistachio:{ name:'קרואסון עם תוספת פיסטוק או שוקולד', desc:'מאפה עשיר עם מילוי לבחירה.' },
-        dCorn:{ name:'תירס חם', desc:'תירס חם עם חמאה או מלח.' },
-        dChestnuts:{ name:'ערמונים', desc:'15 יחידות ערמונים קלויים טריים.' },
-        dLupin:{ name:'טורמוס', desc:'קטנית מבושלת ומומלחת.' },
-        dAlmonds:{ name:'שקדיים', desc:'שקדים מתוקים קלויים.' },
-    
-    }
+      }
     },
 
     ar: {
       dir: 'rtl', title:'Assal Port — المنيو',
       ui:{ select:'اختر اللغة', social:'تابعنا على', instagram:'إنستغرام' },
       categories:{ smoothies:'سموذيّات', ice:'برد طبيعي', juices:'عصاير طبيعية', fruits:'فواكه طازة', hotcold:'مشروبات سخنة وباردة', acai:'آساي حسب الطلب', coffeePastry:'قهوة + كوروسون',
-        desserts:'حلويات & لزيزه' },
+        desserts:'حلويات & لزيزه', snacks:'مسليات' },
       items:{
-        summerFresh:{ name:'صيفي منعش', desc:'بطيخ، نعنع، أناناس وتوت العليق.' },
+        summerFresh:{ name:'صيفي منعش', desc:'بطيخ، نعنع، أناناس وتوت.' },
         greenYellow:{ name:'أخضر أصفر', desc:'كيوي، موز وتفاح أخضر.' },
         strawberryMango:{ name:'فراولة مانجو', desc:'فراولة، مانجو وبرتقال.' },
-        yourWinner:{ name:'شيككم الفائز (تركيبة شخصية)', desc:'شيك على مزاجك — اختيار حر للمكونات.' },
+        yourWinner:{ name:'شيككم الفائز', desc:'تركيبة شخصية.' },
         brazilExotic:{ name:'برازيلي استوائي', desc:'أساي، مانجو وموز.' },
-        peanutButter:{ name:'زبدة فول سوداني', desc:'مزيج غني من موز، زبدة فول سوداني وحليب صويا.' },
-        proteinBoost:{ name:'بروتين طاقة', desc:'موز، حليب لوز، بروتين، زبدة فول سوداني وعسل.' },
-        richBerries:{ name:'توت مشكّل غني', desc:'فراولة، ميكس توت بري، وعسل.' },
-        melonBananaDate:{ name:'شمّام موز وتمر', desc:'شمّام، موز، تمر، حليب لوز وقرفة.' },
-        mangoPine:{ name:'مانجو أناناس', desc:'مانجو، أناناس وجوز طبيعي.' },
-        tropicExotic:{ name:'استوائي غريب', desc:'مزاج منعش من مانجو، أناناس وبشّفيلورا (باشن فروت).' },
-        energy:{ name:'طاقة', desc:'أفوكادو، مانجو، موز وعسل.' },
-        strawberryBananaDream:{ name:'فراولة موز حُلْمي', desc:'فراولة، موز وعسل.' },
-        bananaDate:{ name:'موز تمر', desc:'مزيج دلّع من موز وتمور وجوز البيكان.' },
-        green:{ name:'أخضر', desc:'كرفس، خيار، زنجبيل، تفاح أخضر وعصير ليمون.' },
-        // names only for other cats
-        iceStrawberry:{ name:'توت (فراولة)' }, icePassion:{ name:'بسفلوره' },
-        jOrange:{ name:'برتقـال' }, jCarrot:{ name:'جزر' }, jCarrotOrange:{ name:'برتقال جزر' }, jLemonade:{ name:'ليمونادة' }, jGrapefruitRed:{ name:'جريب فروت أحمر' }, jBeetGinger:{ name:'شمندر زنجبيل' }, jApple:{ name:'تفاح' }, jLimoNana:{ name:'ليمون نعنع مطحون' }, jPomegranate:{ name:'رمان (بالموسم)' }, jMojito:{ name:'موهيتو' },
-        fGrapes:{ name:'عنب' }, fPome:{ name:'رمان' }, fStraw:{ name:'فراولة' }, fWatermelon:{ name:'بطيخ' }, fPomelo:{ name:'بومِلو' },
-        fPineapple:{ name:'أناناس' }, /* ✅ */
-        fFruitSalad:{ name:'سلطة فواكه فردية' }, fCoconut:{ name:'جوز هند كامل طبيعي' }, fFruitPlatter:{ name:'صحن فواكه فاخر' }, fFruitPlatterLarge:{ name:'صحن فواكه كبير' },
-        dWater:{ name:'ميّه معدنية / غازية' }, dSoft:{ name:'مشروب غازي' }, dEspresso:{ name:'إسبريسو / دبل' }, dMacchiato:{ name:'ماكياتو' }, dNescafe:{ name:'نسكافيه / كافيه أو لاتي' }, dAmericano:{ name:'أميريكانو' }, dHotChoc:{ name:'شوكو حار / بارد' }, dIcedCoffee:{ name:'قهوة باردة' }, dIceBlend:{ name:'آيس كوفي' }, dHerbal:{ name:'شاي أعشاب' }, dTeaMint:{ name:'شاي مي-نعنع' }, dSahleb:{ name:'سحلب' },
-        acaiBuild:{ name:'آساي حسب الطلب "تركيبتنا أو تركيبتك"' },
+        peanutButter:{ name:'زبدة فول سوداني', desc:'موز + فول سوداني + صويا.' },
+        proteinBoost:{ name:'بروتين طاقة', desc:'موز، لوز، بروتين، فول سوداني، عسل.' },
+        richBerries:{ name:'توت مشكّل', desc:'فراولة، ميكس توت، عسل.' },
+        melonBananaDate:{ name:'شمّام موز تمر', desc:'مع لوز وقرفة.' },
+        mangoPine:{ name:'مانجو أناناس', desc:'مع جوز طبيعي.' },
+        tropicExotic:{ name:'استوائي', desc:'مانجو + أناناس + باشن فروت.' },
+        energy:{ name:'طاقة', desc:'أفوكادو، مانجو، موز، عسل.' },
+        strawberryBananaDream:{ name:'فراولة موز', desc:'مع عسل.' },
+        bananaDate:{ name:'موز تمر', desc:'مع جوز البيكان.' },
+        green:{ name:'أخضر', desc:'كرفس، خيار، زنجبيل، تفاح، ليمون.' },
+        iceStrawberry:{ name:'فراولة' }, icePassion:{ name:'بسفلوره' },
+        jOrange:{ name:'برتقال' }, jCarrot:{ name:'جزر' }, jCarrotOrange:{ name:'برتقال جزر' }, jLemonade:{ name:'ليمونادة' }, jGrapefruitRed:{ name:'جريب فروت أحمر' }, jBeetGinger:{ name:'شمندر زنجبيل' }, jApple:{ name:'تفاح' }, jLimoNana:{ name:'ليمون نعنع' }, jPomegranate:{ name:'رمان (بالموسم)' }, jMojito:{ name:'موهيتو' },
+        fGrapes:{ name:'عنب' }, fPome:{ name:'رمان' }, fStraw:{ name:'فراولة' }, fWatermelon:{ name:'بطيخ' }, fPomelo:{ name:'بومِلو' }, fPineapple:{ name:'أناناس' },
+        fFruitSalad:{ name:'سلطة فواكه' }, fCoconut:{ name:'جوز هند' }, fFruitPlatter:{ name:'صحن فواكه' }, fFruitPlatterLarge:{ name:'صحن فواكه كبير' },
+        dWater:{ name:'ميّه / غازية' }, dSoft:{ name:'مشروب غازي' }, dEspresso:{ name:'إسبريسو / دبل' }, dMacchiato:{ name:'ماكياتو' }, dNescafe:{ name:'نسكافيه / لاته' }, dAmericano:{ name:'أميريكانو' }, dHotChoc:{ name:'شوكو' }, dIcedCoffee:{ name:'قهوة باردة' }, dIceBlend:{ name:'آيس كوفي' }, dHerbal:{ name:'شاي أعشاب' }, dTeaMint:{ name:'شاي مي-نعنع' }, dSahleb:{ name:'سحلب' },
+        acaiBuild:{ name:'آساي حسب الطلب' },
         coffeePastry:{ name:'قهوة + كوروسون' },
-
-        // NEW Desserts
-
-        dDubai:{ name:'شوكولاتة دبي', desc:'كيكة شوكولاتة غنية بطعم فاخر.' },
-        dMix:{ name:'حلويات', desc:'تشكيلة حلويات طازجة ومتغيرة.' },
-        dKnafeh:{ name:'كنافة', desc:'كنافة ساخنة بالجبنة الحلوة، مع بوظة – 42 ₪' },
-        dSouffle:{ name:'سوفليه', desc:'كيك شوكولاتة ساخن مع بوظة فانيلا.' },
-        dMalabi:{ name:'مهلبية', desc:'مهلبية باردة مع قطر الورد والمكسرات.' },
-        dWaria:{ name:'ففاريا', desc:'حلوى تقليدية بطعم مميز.' },
-        dCroissantPistachio:{ name:'كرواسون بالفستق أو الشوكولاتة', desc:'معجنات غنية محشوة حسب الاختيار.' },
-        dCorn:{ name:'ذرة ساخنه', desc:'ذرة ساخنة مع زبدة أو ملح.' },
-        dChestnuts:{ name:'كستناء', desc:'15 حبة مشوية طازجة.' },
-        dLupin:{ name:'ترمس', desc:'منقوع ومالح بطعم لذيذ.' },
-        dAlmonds:{ name:'لوز ', desc:'لوز مقرمش ومملح بخفة.' },
-    
-    }
+        dDubai:{ name:'شوكولاتة دبي', desc:'كيكة شوكولاتة غنية.' },
+        dMix:{ name:'حلويات', desc:'تشكيلة متغيرة.' },
+        dKnafeh:{ name:'كنافة', desc:'مع بوظة – 42 ₪' },
+        dSouffle:{ name:'سوفليه', desc:'كيك شوكولاتة ساخن مع فانيلا.' },
+        dMalabi:{ name:'مهلبية', desc:'مع قطر ورد ومكسرات.' },
+        dWaria:{ name:'ففاريا', desc:'حلوى تقليدية.' },
+        dCroissantPistachio:{ name:'كرواسون فستق/شوكولاتة', desc:'محشو حسب الاختيار.' },
+        dCorn:{ name:'ذرة ساخنه', desc:'مع زبدة أو ملح.' },
+        dChestnuts:{ name:'كستناء', desc:'15 حبة مشوية.' },
+        dLupin:{ name:'ترمس', desc:'منقوع ومملح.' },
+        dAlmonds:{ name:'لوز', desc:'محمص خفيفاً.' },
+      }
     },
 
     ru: {
       dir:'ltr', title:'Assal Port — Меню',
       ui:{ select:'Выберите язык', social:'Мы в', instagram:'Instagram' },
       categories:{ smoothies:'Смузи', ice:'Ледяной граните', juices:'Натуральные соки', fruits:'Свежие фрукты', hotcold:'Горячие и холодные напитки', acai:'Асаи на выбор', coffeePastry:'Кофе + выпечка',
-        desserts:'Десерты & вкусняшки' },
+        desserts:'Десерты & вкусняшки', snacks:'Закуски' },
       items:{
-        summerFresh:{ name:'Летняя свежесть', desc:'Арбуз, мята, ананас и малина.' },
-        greenYellow:{ name:'Зелёто-жёлтый', desc:'Киви, банан и зелёное яблоко.' },
-        strawberryMango:{ name:'Клубника манго', desc:'Клубника, манго и апельсин.' },
-        yourWinner:{ name:'Ваш победный шейк', desc:'Индивидуальная сборка — на ваш вкус.' },
-        brazilExotic:{ name:'Бразильский экзотик', desc:'Асаи, манго и банан.' },
-        peanutButter:{ name:'Арахисовая паста', desc:'Банан, арахисовая паста и соевое молоко.' },
-        proteinBoost:{ name:'Энергетический протеин', desc:'Банан, миндальное молоко, протеин, арахисовая паста, мёд.' },
-        richBerries:{ name:'Богатые лесные ягоды', desc:'Клубника, микс ягод и мёд.' },
-        melonBananaDate:{ name:'Дыня банан финик', desc:'Дыня, банан, финики, миндальное молоко и корица.' },
-        mangoPine:{ name:'Манго ананас', desc:'Манго, ананас и натуральная кокосовая основа.' },
-        tropicExotic:{ name:'Тропический экзотик', desc:'Освежающая смесь манго, ананаса и маракуйи.' },
-        energy:{ name:'Энергия', desc:'Авокадо, манго, банан и мёд.' },
-        strawberryBananaDream:{ name:'Мечта: клубника банан', desc:'Клубника, банан и мёд.' },
-        bananaDate:{ name:'Банан финик', desc:'Нежный микс банана, фиников и пекана.' },
-        green:{ name:'Зелёный', desc:'Сельдерей, огурец, имбирь, зелёное яблоко и лимонный сок.' },
-        // names only others
+        summerFresh:{ name:'Летняя свежесть', desc:'Арбуз, мята, ананас, малина.' },
+        greenYellow:{ name:'Зелёто-жёлтый', desc:'Киви, банан, зелёное яблоко.' },
+        strawberryMango:{ name:'Клубника манго', desc:'Клубника, манго, апельсин.' },
+        yourWinner:{ name:'Ваш шейк', desc:'Индивидуальная сборка.' },
+        brazilExotic:{ name:'Бразильский', desc:'Асаи, манго, банан.' },
+        peanutButter:{ name:'Арахисовая паста', desc:'Банан, паста, соя.' },
+        proteinBoost:{ name:'Протеин', desc:'Банан, миндаль, протеин, паста, мёд.' },
+        richBerries:{ name:'Ягодный микс', desc:'Клубника, ягоды, мёд.' },
+        melonBananaDate:{ name:'Дыня банан финик' }, mangoPine:{ name:'Манго ананас' },
+        tropicExotic:{ name:'Тропический' }, energy:{ name:'Энергия' },
+        strawberryBananaDream:{ name:'Клубника банан' }, bananaDate:{ name:'Банан финик' }, green:{ name:'Зелёный' },
         iceStrawberry:{ name:'Клубника' }, icePassion:{ name:'Маракуйя' },
-        jOrange:{ name:'Апельсин' }, jCarrot:{ name:'Морковь' }, jCarrotOrange:{ name:'Апельсин-морковь' }, jLemonade:{ name:'Лимонад' }, jGrapefruitRed:{ name:'Розовый грейпфрут' }, jBeetGinger:{ name:'Свёкла-имбирь' }, jApple:{ name:'Яблоко' }, jLimoNana:{ name:'Лимон-мята (дробл.)' }, jPomegranate:{ name:'Гранат (сезон)' }, jMojito:{ name:'Мохито' },
-        fGrapes:{ name:'Виноград' }, fPome:{ name:'Гранат' }, fStraw:{ name:'Клубника' }, fWatermelon:{ name:'Арбуз' }, fPomelo:{ name:'Помело' },
-        fPineapple:{ name:'Ананас' }, /* ✅ */
-        fFruitSalad:{ name:'Фруктовый салат (индив.)' }, fCoconut:{ name:'Целый кокос' }, fFruitPlatter:{ name:'Ассорти фруктов' }, fFruitPlatterLarge:{ name:'Ассорти фруктов — большое' },
-        dWater:{ name:'Вода минеральная / газированная' }, dSoft:{ name:'Безалкогольный напиток' }, dEspresso:{ name:'Эспрессо / двойной' }, dMacchiato:{ name:'Маккиато' }, dNescafe:{ name:'Нескафе / латте' }, dAmericano:{ name:'Американо' }, dHotChoc:{ name:'Горячий/холодный шоколад' }, dIcedCoffee:{ name:'Холодный кофе' }, dIceBlend:{ name:'Айс-кофе' }, dHerbal:{ name:'Травяной чай' }, dTeaMint:{ name:'Чай – мята' }, dSahleb:{ name:'Сахлаб' },
-        acaiBuild:{ name:'Асаи на выбор «наш рецепт или ваш»' },
-        coffeePastry:{ name:'Кофе + выпечка' },
-
-        // NEW Desserts
-
-        dDubai:{ name:'Шоколад Дубай', desc:'Насыщенный шоколадный десерт.' },
-        dMix:{ name:'Десерты', desc:'Ассорти свежих десертов.' },
-        dKnafeh:{ name:'Кнафе', desc:'Тёплый восточный десерт с сыром. С мороженым – 42 ₪' },
-        dSouffle:{ name:'Суфле', desc:'Горячий шоколадный кекс с мороженым.' },
-        dMalabi:{ name:'Малаби', desc:'Холодный десерт с сиропом роз и орехами.' },
-        dWaria:{ name:'Варья', desc:'Классическая сладость с уникальной текстурой.' },
-        dCroissantPistachio:{ name:'Круассан с фисташкой или шоколадом', desc:'Свежая выпечка с начинкой на выбор.' },
-        dCorn:{ name:'Горячая кукуруза', desc:'Горячая кукуруза с маслом или солью.' },
-        dChestnuts:{ name:'Каштаны', desc:'15 свежих жареных каштанов.' },
-        dLupin:{ name:'Люпин', desc:'Варёные и солёные бобы.' },
-        dAlmonds:{ name:'Миндаль', desc:'Сладкий поджаренный миндаль.' },
-    
-    }
+        jOrange:{ name:'Апельсин' }, jCarrot:{ name:'Морковь' }, jCarrotOrange:{ name:'Апельсин-морковь' }, jLemonade:{ name:'Лимонад' }, jGrapefruitRed:{ name:'Розовый грейпфрут' }, jBeetGinger:{ name:'Свёкла-имбирь' }, jApple:{ name:'Яблоко' }, jLimoNana:{ name:'Лимон-мята' }, jPomegranate:{ name:'Гранат (сез.)' }, jMojito:{ name:'Мохито' },
+        fGrapes:{ name:'Виноград' }, fPome:{ name:'Гранат' }, fStraw:{ name:'Клубника' }, fWatermelon:{ name:'Арбуз' }, fPomelo:{ name:'Помело' }, fPineapple:{ name:'Ананас' },
+        fFruitSalad:{ name:'Салат (инд.)' }, fCoconut:{ name:'Кокос' }, fFruitPlatter:{ name:'Ассорти фруктов' }, fFruitPlatterLarge:{ name:'Ассорти — большое' },
+        dWater:{ name:'Вода' }, dSoft:{ name:'Напиток' }, dEspresso:{ name:'Эспрессо/д' }, dMacchiato:{ name:'Маккиато' }, dNescafe:{ name:'Нескафе/латте' }, dAmericano:{ name:'Американо' }, dHotChoc:{ name:'Шоколад' }, dIcedCoffee:{ name:'Холодный кофе' }, dIceBlend:{ name:'Айс-кофе' }, dHerbal:{ name:'Травяной чай' }, dTeaMint:{ name:'Чай-мята' }, dSahleb:{ name:'Сахлаб' },
+        acaiBuild:{ name:'Асаи на выбор' }, coffeePastry:{ name:'Кофе + выпечка' },
+        dDubai:{ name:'Шоколад Дубай' }, dMix:{ name:'Десерты' }, dKnafeh:{ name:'Кнафе' }, dSouffle:{ name:'Суфле' }, dMalabi:{ name:'Малаби' }, dWaria:{ name:'Варья' }, dCroissantPistachio:{ name:'Круассан фист./шок.' },
+        dCorn:{ name:'Горячая кукуруза' }, dChestnuts:{ name:'Каштаны' }, dLupin:{ name:'Люпин' }, dAlmonds:{ name:'Миндаль' },
+      }
     },
 
     fr: {
       dir:'ltr', title:'Assal Port — Carte',
       ui:{ select:'Choisir la langue', social:'Suivez-nous sur', instagram:'Instagram' },
       categories:{ smoothies:'Smoothies', ice:'Granité naturel', juices:'Jus naturels', fruits:'Fruits frais', hotcold:'Boissons chaudes & froides', acai:'Açaí à composer', coffeePastry:'Café + viennoiserie',
-        desserts:'Desserts & délicieux' },
+        desserts:'Desserts & délicieux', snacks:'Snacks' },
       items:{
-        summerFresh:{ name:'Estival rafraîchissant', desc:'Pastèque, menthe, ananas et framboise.' },
-        greenYellow:{ name:'Vert jaune', desc:'Kiwi, banane et pomme verte.' },
-        strawberryMango:{ name:'Fraise mangue', desc:'Fraise, mangue et orange.' },
-        yourWinner:{ name:'Votre shake gagnant', desc:'Assemblage personnalisé — comme vous aimez.' },
-        brazilExotic:{ name:'Brésilien exotique', desc:'Açaí, mangue et banane.' },
-        peanutButter:{ name:'Beurre de cacahuète', desc:'Banane, beurre de cacahuète et lait de soja.' },
-        proteinBoost:{ name:'Protéine énergétique', desc:'Banane, lait d’amande, protéine, beurre de cacahuète, miel.' },
-        richBerries:{ name:'Fruits des bois riches', desc:'Fraises, mix fruits des bois et miel.' },
-        melonBananaDate:{ name:'Melon banane datte', desc:'Melon, banane, dattes, lait d’amande et cannelle.' },
-        mangoPine:{ name:'Mangue ananas', desc:'Mangue, ananas et coco naturel.' },
-        tropicExotic:{ name:'Tropical exotique', desc:'Mélange rafraîchissant de mangue, ananas et fruit de la passion.' },
-        energy:{ name:'Énergie', desc:'Avocat, mangue, banane et miel.' },
-        strawberryBananaDream:{ name:'Fraise banane de rêve', desc:'Fraises, banane et miel.' },
-        bananaDate:{ name:'Banane datte', desc:'Mélange gourmand banane, dattes et pacanes.' },
-        green:{ name:'Vert', desc:'Céleri, concombre, gingembre, pomme verte et jus de citron.' },
-        // names only others
+        summerFresh:{ name:'Estival rafraîchissant' }, greenYellow:{ name:'Vert jaune' },
+        strawberryMango:{ name:'Fraise mangue' }, yourWinner:{ name:'Votre shake' },
+        brazilExotic:{ name:'Brésilien exotique' }, peanutButter:{ name:'Beurre de cacahuète' },
+        proteinBoost:{ name:'Protéine énergétique' }, richBerries:{ name:'Fruits des bois riches' },
+        melonBananaDate:{ name:'Melon banane datte' }, mangoPine:{ name:'Mangue ananas' },
+        tropicExotic:{ name:'Tropical exotique' }, energy:{ name:'Énergie' },
+        strawberryBananaDream:{ name:'Fraise banane' }, bananaDate:{ name:'Banane datte' },
+        green:{ name:'Vert' },
         iceStrawberry:{ name:'Fraise' }, icePassion:{ name:'Fruit de la passion' },
-        jOrange:{ name:'Orange' }, jCarrot:{ name:'Carotte' }, jCarrotOrange:{ name:'Orange-carotte' }, jLemonade:{ name:'Limonade' }, jGrapefruitRed:{ name:'Pamplemousse rose' }, jBeetGinger:{ name:'Betterave-gingembre' }, jApple:{ name:'Pomme' }, jLimoNana:{ name:'Citron-menthe concassée' }, jPomegranate:{ name:'Grenade (saison)' }, jMojito:{ name:'Mojito' },
-        fGrapes:{ name:'Raisin' }, fPome:{ name:'Grenade' }, fStraw:{ name:'Fraise' }, fWatermelon:{ name:'Pastèque' }, fPomelo:{ name:'Pomélo' },
-        fPineapple:{ name:'Ananas' }, /* ✅ */
-        fFruitSalad:{ name:'Salade de fruits individuelle' }, fCoconut:{ name:'Noix de coco entière' }, fFruitPlatter:{ name:'Plateau de fruits gourmand' }, fFruitPlatterLarge:{ name:'Grand plateau de fruits' },
-        dWater:{ name:'Eau minérale / gazeuse' }, dSoft:{ name:'Boisson gazeuse' }, dEspresso:{ name:'Espresso / double' }, dMacchiato:{ name:'Macchiato' }, dNescafe:{ name:'Nescafé / café au lait' }, dAmericano:{ name:'Américano' }, dHotChoc:{ name:'Chocolat chaud / froid' }, dIcedCoffee:{ name:'Café glacé' }, dIceBlend:{ name:'Ice coffee' }, dHerbal:{ name:'Infusion' }, dTeaMint:{ name:'Thé – menthe' }, dSahleb:{ name:'Sahlab' },
-        acaiBuild:{ name:'Açaí « notre recette ou la vôtre »' },
-        coffeePastry:{ name:'Café + viennoiserie' },
-
-        // NEW Desserts
-
-        dDubai:{ name:'Chocolat Dubaï', desc:'Gâteau au chocolat riche et fondant.' },
-        dMix:{ name:'Desserts', desc:'Sélection variée de desserts frais.' },
-        dKnafeh:{ name:'Knafeh', desc:'Dessert oriental chaud au fromage sucré. Avec glace – 42 ₪' },
-        dSouffle:{ name:'Soufflé', desc:'Gâteau au chocolat chaud avec glace vanille.' },
-        dMalabi:{ name:'Malabi', desc:'Flan froid au sirop de rose et noix.' },
-        dWaria:{ name:'Waria', desc:'Confiserie traditionnelle à texture unique.' },
-        dCroissantPistachio:{ name:'Croissant pistache ou chocolat', desc:'Viennoiserie garnie au choix.' },
-        dCorn:{ name:'Maïs chaud', desc:'Épi chaud avec beurre ou sel.' },
-        dChestnuts:{ name:'Châtaignes', desc:'15 châtaignes grillées fraîches.' },
-        dLupin:{ name:'Lupin', desc:'Graines bouillies et salées.' },
-        dAlmonds:{ name:'Amandes', desc:'Amandes grillées légèrement sucrées.' },
-    
-    }
+        jOrange:{ name:'Orange' }, jCarrot:{ name:'Carotte' }, jCarrotOrange:{ name:'Orange-carotte' }, jLemonade:{ name:'Limonade' }, jGrapefruitRed:{ name:'Pamplemousse rose' }, jBeetGinger:{ name:'Betterave-gingembre' }, jApple:{ name:'Pomme' }, jLimoNana:{ name:'Citron-menthe' }, jPomegranate:{ name:'Grenade (sais.)' }, jMojito:{ name:'Mojito' },
+        fGrapes:{ name:'Raisin' }, fPome:{ name:'Grenade' }, fStraw:{ name:'Fraise' }, fWatermelon:{ name:'Pastèque' }, fPomelo:{ name:'Pomélo' }, fPineapple:{ name:'Ananas' },
+        fFruitSalad:{ name:'Salade individuelle' }, fCoconut:{ name:'Noix de coco' }, fFruitPlatter:{ name:'Plateau de fruits' }, fFruitPlatterLarge:{ name:'Grand plateau' },
+        dWater:{ name:'Eau' }, dSoft:{ name:'Boisson gazeuse' }, dEspresso:{ name:'Espresso' }, dMacchiato:{ name:'Macchiato' }, dNescafe:{ name:'Nescafé/latte' }, dAmericano:{ name:'Américano' }, dHotChoc:{ name:'Chocolat' }, dIcedCoffee:{ name:'Café glacé' }, dIceBlend:{ name:'Ice coffee' }, dHerbal:{ name:'Infusion' }, dTeaMint:{ name:'Thé – menthe' }, dSahleb:{ name:'Sahlab' },
+        acaiBuild:{ name:'Açaí à composer' }, coffeePastry:{ name:'Café + viennoiserie' },
+        dDubai:{ name:'Chocolat Dubaï' }, dMix:{ name:'Desserts' }, dKnafeh:{ name:'Knafeh' }, dSouffle:{ name:'Soufflé' }, dMalabi:{ name:'Malabi' }, dWaria:{ name:'Waria' }, dCroissantPistachio:{ name:'Croissant pist./choco' },
+        dCorn:{ name:'Maïs chaud' }, dChestnuts:{ name:'Châtaignes' }, dLupin:{ name:'Lupin' }, dAlmonds:{ name:'Amandes' },
+      }
     },
 
     en: {
       dir:'ltr', title:'Assal Port — Menu',
       ui:{ select:'Select Language', social:'Follow us on', instagram:'Instagram' },
       categories:{ smoothies:'Smoothies', ice:'Natural Ice Slush', juices:'Fresh Juices', fruits:'Fresh Fruits', hotcold:'Hot & Cold Drinks', acai:'Açaí to Build', coffeePastry:'Coffee + Pastry',
-        desserts:'Desserts & Treats' },
+        desserts:'Desserts & Treats', snacks:'Snacks' },
       items:{
-        // Smoothies
-        summerFresh:{ name:'Summer Fresh', desc:'Watermelon, mint, pineapple, and raspberry.' },
-        greenYellow:{ name:'Green Yellow', desc:'Kiwi, banana, and green apple.' },
-        strawberryMango:{ name:'Strawberry Mango', desc:'Strawberry, mango, and orange.' },
-        yourWinner:{ name:'Your Winner Shake', desc:'Create your own custom shake.' },
-        brazilExotic:{ name:'Brazilian Exotic', desc:'Açaí, mango, and banana.' },
-        peanutButter:{ name:'Peanut Butter', desc:'Banana, peanut butter, and soy milk.' },
-        proteinBoost:{ name:'Protein Boost', desc:'Banana, almond milk, protein powder, peanut butter, and honey.' },
-        richBerries:{ name:'Rich Berries', desc:'Strawberries, mixed berries, and honey.' },
-        melonBananaDate:{ name:'Melon Banana Date', desc:'Melon, banana, dates, almond milk, and cinnamon.' },
-        mangoPine:{ name:'Mango Pineapple', desc:'Mango, pineapple, and coconut.' },
-        tropicExotic:{ name:'Tropical Exotic', desc:'Refreshing mix of mango, pineapple, and passion fruit.' },
-        energy:{ name:'Energy', desc:'Avocado, mango, banana, and honey.' },
-        strawberryBananaDream:{ name:'Strawberry Banana Dream', desc:'Strawberries, banana, and honey.' },
-        bananaDate:{ name:'Banana Date', desc:'Banana, dates, and pecan nuts.' },
-        green:{ name:'Green', desc:'Celery, cucumber, ginger, green apple, and lemon juice.' },
-        // Ice
+        summerFresh:{ name:'Summer Fresh' }, greenYellow:{ name:'Green Yellow' }, strawberryMango:{ name:'Strawberry Mango' }, yourWinner:{ name:'Your Winner Shake' },
+        brazilExotic:{ name:'Brazilian Exotic' }, peanutButter:{ name:'Peanut Butter' }, proteinBoost:{ name:'Protein Boost' }, richBerries:{ name:'Rich Berries' },
+        melonBananaDate:{ name:'Melon Banana Date' }, mangoPine:{ name:'Mango Pineapple' }, tropicExotic:{ name:'Tropical Exotic' }, energy:{ name:'Energy' },
+        strawberryBananaDream:{ name:'Strawberry Banana Dream' }, bananaDate:{ name:'Banana Date' }, green:{ name:'Green' },
         iceStrawberry:{ name:'Strawberry' }, icePassion:{ name:'Passion Fruit' },
-        // Juices
         jOrange:{ name:'Orange' }, jCarrot:{ name:'Carrot' }, jCarrotOrange:{ name:'Carrot Orange' }, jLemonade:{ name:'Lemonade' }, jGrapefruitRed:{ name:'Red Grapefruit' }, jBeetGinger:{ name:'Beet Ginger' }, jApple:{ name:'Apple' }, jLimoNana:{ name:'Lemon Mint' }, jPomegranate:{ name:'Pomegranate (Seasonal)' }, jMojito:{ name:'Mojito' },
-        // Fruits
-        fGrapes:{ name:'Grapes' }, fPome:{ name:'Pomegranate' }, fStraw:{ name:'Strawberry' }, fWatermelon:{ name:'Watermelon' }, fPomelo:{ name:'Pomelo' },
-        fPineapple:{ name:'Pineapple' }, /* ✅ */
-        fFruitSalad:{ name:'Fruit Salad (Personal)' }, fCoconut:{ name:'Whole Coconut' }, fFruitPlatter:{ name:'Fruit Platter' }, fFruitPlatterLarge:{ name:'Large Fruit Platter' },
-        // Hot & Cold
+        fGrapes:{ name:'Grapes' }, fPome:{ name:'Pomegranate' }, fStraw:{ name:'Strawberry' }, fWatermelon:{ name:'Watermelon' }, fPomelo:{ name:'Pomelo' }, fPineapple:{ name:'Pineapple' },
+        fFruitSalad:{ name:'Fruit Salad' }, fCoconut:{ name:'Whole Coconut' }, fFruitPlatter:{ name:'Fruit Platter' }, fFruitPlatterLarge:{ name:'Large Fruit Platter' },
         dWater:{ name:'Water (Still / Sparkling)' }, dSoft:{ name:'Soft Drink' }, dEspresso:{ name:'Espresso / Double' }, dMacchiato:{ name:'Macchiato' }, dNescafe:{ name:'Nescafe / Latte' }, dAmericano:{ name:'Americano' }, dHotChoc:{ name:'Hot / Cold Chocolate' }, dIcedCoffee:{ name:'Iced Coffee' }, dIceBlend:{ name:'Ice Blend' }, dHerbal:{ name:'Herbal Tea' }, dTeaMint:{ name:'Tea – Mint' }, dSahleb:{ name:'Sahlab' },
-        // Açaí
-        acaiBuild:{ name:'Açaí to Build “Ours or Yours”' },
-        // Coffee + Pastry
-        coffeePastry:{ name:'Coffee + Pastry' },
-        // Desserts
-        dDubai:{ name:'Dubai Chocolate', desc:'Rich chocolate cake with dreamy flavor.' },
-        dMix:{ name:'Dessert Mix', desc:'Selection of fresh, changing desserts.' },
-        dKnafeh:{ name:'Knafeh', desc:'Warm oriental dessert with sweet cheese. With ice cream – 42 ₪' },
-        dSouffle:{ name:'Soufflé', desc:'Hot chocolate cake with vanilla ice cream.' },
-        dMalabi:{ name:'Malabi', desc:'Cold rose pudding with syrup and nuts.' },
-        dWaria:{ name:'Waria', desc:'Classic sweet with unique texture.' },
-        dCroissantPistachio:{ name:'Croissant Pistachio or Chocolate', desc:'Flaky pastry filled with your choice.' },
-        dCorn:{ name:'Hot corn', desc:'Hot corn with butter or salt.' },
-        dChestnuts:{ name:'Chestnuts', desc:'15 freshly roasted chestnuts.' },
-        dLupin:{ name:'Lupin Beans', desc:'Boiled and lightly salted.' },
-        dAlmonds:{ name:'Almonds', desc:'Sweet roasted almonds.' },
+        acaiBuild:{ name:'Açaí to Build' }, coffeePastry:{ name:'Coffee + Pastry' },
+        dDubai:{ name:'Dubai Chocolate' }, dMix:{ name:'Dessert Mix' }, dKnafeh:{ name:'Knafeh' }, dSouffle:{ name:'Soufflé' }, dMalabi:{ name:'Malabi' }, dWaria:{ name:'Waria' }, dCroissantPistachio:{ name:'Croissant Pistachio/Chocolate' },
+        dCorn:{ name:'Hot corn' }, dChestnuts:{ name:'Chestnuts' }, dLupin:{ name:'Lupin Beans' }, dAlmonds:{ name:'Almonds' },
       }
     }
   };
@@ -473,7 +376,7 @@
 
   function money(p){
     if(!p) return '';
-    const {s,l} = p; // small/large
+    const {s,l} = p;
     if(s && l) return `${s} | ${l} ₪`;
     if(l && !s) return `${l} ₪`;
     if(s && !l) return `${s} ₪`;
@@ -540,7 +443,6 @@
       wrap.appendChild(catDiv);
     });
 
-    // social
     const social = document.getElementById('social');
     social.innerHTML = `${L.ui.social} <a target="_blank" href="https://www.instagram.com/assal_port?utm_source=qr&igsh=ejIyMWNrMm9wNXh5">${L.ui.instagram}</a>`;
   }
@@ -552,13 +454,16 @@
     renderMenu();
   }
 
-  // Loading -> Language gate
-  setTimeout(()=>{
-    document.getElementById('loading').style.display='none';
-    document.getElementById('language-select').style.display='flex';
-    // set initial text of the select title (will be he by default)
-    document.querySelector('.lang-title').textContent = T.he.ui.select + ' / اختر اللغة';
-  }, 2000);
+  // ===== Splash control: 3s then show language gate =====
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      const s = document.getElementById('splash');
+      s.classList.add('hide');
+      // Show language selection
+      const gate = document.getElementById('language-select');
+      gate.style.display = 'flex';
+    }, 3000); // 3 seconds
+  });
   </script>
 </body>
 </html>
