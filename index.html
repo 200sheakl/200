@@ -88,6 +88,7 @@
         <button class="lang-btn" onclick="setLang('ar')">عربي</button>
         <button class="lang-btn" onclick="setLang('ru')">Русский</button>
         <button class="lang-btn" onclick="setLang('fr')">Français</button>
+        <button class="lang-btn" onclick="setLang('en')">English</button>
       </div>
     </div>
   </section>
@@ -143,7 +144,7 @@
 
       // --- Ice (ברד טבעי) ---
       iceStrawberry: { cat:'ice', prices: PR(15,20) },
-      icePassion:    { cat:'ice', prices: PR(10,20) },
+      icePassion:    { cat:'ice', prices: PR(15,20) },
 
       // --- Natural Juices (סחוסים טבעיים) ---
       jOrange:   { cat:'juices', prices: PR(15,20) },
@@ -404,6 +405,55 @@
         dAlmonds:{ name:'Amandes', desc:'Amandes grillées légèrement sucrées.' },
     
     }
+    },
+
+    en: {
+      dir:'ltr', title:'Assal Port — Menu',
+      ui:{ select:'Select Language', social:'Follow us on', instagram:'Instagram' },
+      categories:{ smoothies:'Smoothies', ice:'Natural Ice Slush', juices:'Fresh Juices', fruits:'Fresh Fruits', hotcold:'Hot & Cold Drinks', acai:'Açaí to Build', coffeePastry:'Coffee + Pastry',
+        desserts:'Desserts & Treats' },
+      items:{
+        // Smoothies
+        summerFresh:{ name:'Summer Fresh', desc:'Watermelon, mint, pineapple, and raspberry.' },
+        greenYellow:{ name:'Green Yellow', desc:'Kiwi, banana, and green apple.' },
+        strawberryMango:{ name:'Strawberry Mango', desc:'Strawberry, mango, and orange.' },
+        yourWinner:{ name:'Your Winner Shake', desc:'Create your own custom shake.' },
+        brazilExotic:{ name:'Brazilian Exotic', desc:'Açaí, mango, and banana.' },
+        peanutButter:{ name:'Peanut Butter', desc:'Banana, peanut butter, and soy milk.' },
+        proteinBoost:{ name:'Protein Boost', desc:'Banana, almond milk, protein powder, peanut butter, and honey.' },
+        richBerries:{ name:'Rich Berries', desc:'Strawberries, mixed berries, and honey.' },
+        melonBananaDate:{ name:'Melon Banana Date', desc:'Melon, banana, dates, almond milk, and cinnamon.' },
+        mangoPine:{ name:'Mango Pineapple', desc:'Mango, pineapple, and coconut.' },
+        tropicExotic:{ name:'Tropical Exotic', desc:'Refreshing mix of mango, pineapple, and passion fruit.' },
+        energy:{ name:'Energy', desc:'Avocado, mango, banana, and honey.' },
+        strawberryBananaDream:{ name:'Strawberry Banana Dream', desc:'Strawberries, banana, and honey.' },
+        bananaDate:{ name:'Banana Date', desc:'Banana, dates, and pecan nuts.' },
+        green:{ name:'Green', desc:'Celery, cucumber, ginger, green apple, and lemon juice.' },
+        // Ice
+        iceStrawberry:{ name:'Strawberry' }, icePassion:{ name:'Passion Fruit' },
+        // Juices
+        jOrange:{ name:'Orange' }, jCarrot:{ name:'Carrot' }, jCarrotOrange:{ name:'Carrot Orange' }, jLemonade:{ name:'Lemonade' }, jGrapefruitRed:{ name:'Red Grapefruit' }, jBeetGinger:{ name:'Beet Ginger' }, jApple:{ name:'Apple' }, jLimoNana:{ name:'Lemon Mint' }, jPomegranate:{ name:'Pomegranate (Seasonal)' }, jMojito:{ name:'Mojito' },
+        // Fruits
+        fGrapes:{ name:'Grapes' }, fPome:{ name:'Pomegranate' }, fStraw:{ name:'Strawberry' }, fWatermelon:{ name:'Watermelon' }, fPomelo:{ name:'Pomelo' }, fFruitSalad:{ name:'Fruit Salad (Personal)' }, fCoconut:{ name:'Whole Coconut' }, fFruitPlatter:{ name:'Fruit Platter' }, fFruitPlatterLarge:{ name:'Large Fruit Platter' },
+        // Hot & Cold
+        dWater:{ name:'Water (Still / Sparkling)' }, dSoft:{ name:'Soft Drink' }, dEspresso:{ name:'Espresso / Double' }, dMacchiato:{ name:'Macchiato' }, dNescafe:{ name:'Nescafe / Latte' }, dAmericano:{ name:'Americano' }, dHotChoc:{ name:'Hot / Cold Chocolate' }, dIcedCoffee:{ name:'Iced Coffee' }, dIceBlend:{ name:'Ice Blend' }, dHerbal:{ name:'Herbal Tea' }, dTeaMint:{ name:'Tea – Mint' }, dSahleb:{ name:'Sahlab' },
+        // Açaí
+        acaiBuild:{ name:'Açaí to Build “Ours or Yours”' },
+        // Coffee + Pastry
+        coffeePastry:{ name:'Coffee + Pastry' },
+        // Desserts
+        dDubai:{ name:'Dubai Chocolate', desc:'Rich chocolate cake with dreamy flavor.' },
+        dMix:{ name:'Dessert Mix', desc:'Selection of fresh, changing desserts.' },
+        dKnafeh:{ name:'Knafeh', desc:'Warm oriental dessert with sweet cheese. With ice cream – 42 ₪' },
+        dSouffle:{ name:'Soufflé', desc:'Hot chocolate cake with vanilla ice cream.' },
+        dMalabi:{ name:'Malabi', desc:'Cold rose pudding with syrup and nuts.' },
+        dWaria:{ name:'Waria', desc:'Classic sweet with unique texture.' },
+        dCroissantPistachio:{ name:'Croissant Pistachio or Chocolate', desc:'Flaky pastry filled with your choice.' },
+        dCorn:{ name:'Mini Corn', desc:'Hot corn with butter or salt.' },
+        dChestnuts:{ name:'Chestnuts', desc:'15 freshly roasted chestnuts.' },
+        dLupin:{ name:'Lupin Beans', desc:'Boiled and lightly salted.' },
+        dAlmonds:{ name:'Almonds', desc:'Sweet roasted almonds.' },
+      }
     }
   };
 
