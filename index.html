@@ -121,6 +121,7 @@
       { id: 'hotcold' },
       { id: 'acai' },
       { id: 'coffeePastry' },
+      { id: 'desserts' }, // NEW: Desserts
     ],
     items: {
       // --- Smoothies (with descriptions) ---
@@ -186,7 +187,22 @@
 
       // --- Coffee + Pastry ---
       coffeePastry:{ cat:'coffeePastry', prices: PR(null,16) },
-    }
+
+      // --- NEW: Desserts ---
+      // --- Desserts (updated) ---
+      dDubai:{ cat:'desserts', prices: PR(null,25) },
+      dMix:{ cat:'desserts', prices: PR(null,38) },
+      dKnafeh:{ cat:'desserts', prices: PR(38,42) },
+      dSouffle:{ cat:'desserts', prices: PR(38,42) },
+      dMalabi:{ cat:'desserts', prices: PR(null,12) },
+      dWaria:{ cat:'desserts', prices: PR(null,16) },
+      dCroissantPistachio:{ cat:'desserts', prices: PR(null,22) },
+      dCorn:{ cat:'desserts', prices: PR(15,20) },
+      dChestnuts:{ cat:'desserts', prices: PR(null,25) },
+      dLupin:{ cat:'desserts', prices: PR(null,20) },
+      dAlmonds:{ cat:'desserts', prices: PR(null,23) },
+
+                                  }
   };
 
   // --------- Translations ---------
@@ -195,7 +211,8 @@
       dir: 'rtl', title: 'Assal Port — תפריט',
       ui: { select:'בחר שפה', social:'עקבו אחרינו ב־', instagram:'Instagram' },
       categories: {
-        smoothies:'שייקים', ice:'ברד טבעי', juices:'סחוסים טבעיים', fruits:'פירות טריים', hotcold:'משקאות חמים וקרים', acai:'אסאי בהרכבה', coffeePastry:'קפה + מאפה'
+        smoothies:'שייקים', ice:'ברד טבעי', juices:'סחוסים טבעיים', fruits:'פירות טריים', hotcold:'משקאות חמים וקרים', acai:'אסאי בהרכבה', coffeePastry:'קפה + מאפה',
+        desserts:'קינוחים & טעימים' // NEW
       },
       items: {
         // smoothies names & desc
@@ -205,7 +222,7 @@
         yourWinner:{ name:'השייק שלכם מנצח', desc:'שייק בהרכבה אישית.' },
         brazilExotic:{ name:'ברזילאי אקזוטי', desc:'אסאי, מנגו ובננה.' },
         peanutButter:{ name:'חמאת בוטנים', desc:'שילוב עשיר של בננה, חמאת בוטנים וחלב סויה.' },
-        proteinBoost:{ name:'חלבון אנרגטי', desc:'בננה, חלב שקדים, אבקת חלבון, חמאת בוטנים, דבש.' },
+        proteinBoost:{ name:'חלבון אנרגטי', desc:'בננה, חלב שקדים, אבקת חלבון, חמאת בוטנים ודבש.' },
         richBerries:{ name:'פירות יער עשיר', desc:'תותים, מיקס פירות יער, ודבש.' },
         melonBananaDate:{ name:'מלון בננה ותמר', desc:'מלון, בננה, תמרים, חלב שקדים וקינמון.' },
         mangoPine:{ name:'מנגו אננס', desc:'מנגו, אננס וקוקוס טבעי.' },
@@ -221,13 +238,41 @@
         dWater:{ name:'מים מינרליים / מוגזים' }, dSoft:{ name:'שתייה קלה' }, dEspresso:{ name:'אספרסו / כפול' }, dMacchiato:{ name:'מקיאטו' }, dNescafe:{ name:'נס קפה / הפוך' }, dAmericano:{ name:'אמריקנו' }, dHotChoc:{ name:'שוקו חם / קר' }, dIcedCoffee:{ name:'קפה קר' }, dIceBlend:{ name:'אייס קפה' }, dHerbal:{ name:'חליטת צמחים' }, dTeaMint:{ name:'תה - מי נענע' }, dSahleb:{ name:'סחלב' },
         acaiBuild:{ name:'אסאי בהרכבה "הרכבה שלנו או הרכבה עצמית"' },
         coffeePastry:{ name:'קפה + מאפה' },
-      }
+
+        // NEW Desserts (with descriptions)
+
+        dDubai:{ name:'שוקולד דובאי', desc:'עוגת שוקולד עשירה עם טעם חלומי.' },
+        dMix:{ name:'קינוחים', desc:'מבחר קינוחים טריים מתחלפים.' },
+        dKnafeh:{ name:'כנאפה', desc:'קינוח מזרחי חם עם גבינה מתוקה. עם גלידה – 42 ₪' },
+        dSouffle:{ name:'סופלה', desc:'עוגת שוקולד חמה מוגשת עם גלידה וניל.' },
+        dMalabi:{ name:'מהלבי', desc:'מלבי קר עם סירופ ורדים ואגוזים.' },
+        dWaria:{ name:'וואריא', desc:'ממתק קלאסי במרקם ייחודי.' },
+        dCroissantPistachio:{ name:'קרואסון עם תוספת פיסטוק או שוקולד', desc:'מאפה עשיר עם מילוי לבחירה.' },
+        dCorn:{ name:'תירס קטן', desc:'תירס חם עם חמאה או מלח.' },
+        dChestnuts:{ name:'ערמונים', desc:'15 יחידות ערמונים קלויים טריים.' },
+        dLupin:{ name:'טורמוס', desc:'קטנית מבושלת ומומלחת.' },
+        dAlmonds:{ name:'שקדיים', desc:'שקדים מתוקים קלויים.' },
+
+        dDubai:{ name:'שוקולד דובאי', desc:'עוגת שוקולד עשירה עם טעם חלומי.' },
+        dMix:{ name:'קינוחים', desc:'מבחר קינוחים טריים מתחלפים.' },
+        dKnafeh:{ name:'כנאפה', desc:'קינוח מזרחי חם עם גבינה מתוקה. עם גלידה – 42 ₪' },
+        dSouffle:{ name:'סופלה', desc:'עוגת שוקולד חמה מוגשת עם גלידה וניל.' },
+        dMalabi:{ name:'מהלבי', desc:'מלבי קר עם סירופ ורדים ואגוזים.' },
+        dWaria:{ name:'וואריא', desc:'ממתק קלאסי במרקם ייחודי.' },
+        dCroissantPistachio:{ name:'קרואסון עם תוספת פיסטוק או שוקולד', desc:'מאפה עשיר עם מילוי לבחירה.' },
+        dCorn:{ name:'תירס קטן', desc:'תירס חם עם חמאה או מלח.' },
+        dChestnuts:{ name:'ערמונים', desc:'15 יחידות ערמונים קלויים טריים.' },
+        dLupin:{ name:'טורמוס', desc:'קטנית מבושלת ומומלחת.' },
+        dAlmonds:{ name:'שקדיים', desc:'שקדים מתוקים קלויים.' },
+    
+    }
     },
 
     ar: {
       dir: 'rtl', title:'Assal Port — المنيو',
       ui:{ select:'اختر اللغة', social:'تابعنا على', instagram:'إنستغرام' },
-      categories:{ smoothies:'سموذيّات', ice:'برد طبيعي', juices:'عصاير طبيعية', fruits:'فواكه طازة', hotcold:'مشروبات سخنة وباردة', acai:'آساي حسب الطلب', coffeePastry:'قهوة + معجنات' },
+      categories:{ smoothies:'سموذيّات', ice:'برد طبيعي', juices:'عصاير طبيعية', fruits:'فواكه طازة', hotcold:'مشروبات سخنة وباردة', acai:'آساي حسب الطلب', coffeePastry:'قهوة + كوروسون',
+        desserts:'حلويات & لزيزه' },
       items:{
         summerFresh:{ name:'صيفي منعش', desc:'بطيخ، نعنع، أناناس وتوت العليق.' },
         greenYellow:{ name:'أخضر أصفر', desc:'كيوي، موز وتفاح أخضر.' },
@@ -245,19 +290,35 @@
         bananaDate:{ name:'موز تمر', desc:'مزيج دلّع من موز وتمور وجوز البيكان.' },
         green:{ name:'أخضر', desc:'كرفس، خيار، زنجبيل، تفاح أخضر وعصير ليمون.' },
         // names only for other cats
-        iceStrawberry:{ name:'توت (فراولة)' }, icePassion:{ name:'باشن' },
+        iceStrawberry:{ name:'توت (فراولة)' }, icePassion:{ name:'بسفلوره' },
         jOrange:{ name:'برتقـال' }, jCarrot:{ name:'جزر' }, jCarrotOrange:{ name:'برتقال جزر' }, jLemonade:{ name:'ليمونادة' }, jGrapefruitRed:{ name:'جريب فروت أحمر' }, jBeetGinger:{ name:'شمندر زنجبيل' }, jApple:{ name:'تفاح' }, jLimoNana:{ name:'ليمون نعنع مطحون' }, jPomegranate:{ name:'رمان (بالموسم)' }, jMojito:{ name:'موهيتو' },
         fGrapes:{ name:'عنب' }, fPome:{ name:'رمان' }, fStraw:{ name:'فراولة' }, fWatermelon:{ name:'بطيخ' }, fPomelo:{ name:'بومِلو' }, fFruitSalad:{ name:'سلطة فواكه فردية' }, fCoconut:{ name:'جوز هند كامل طبيعي' }, fFruitPlatter:{ name:'صحن فواكه فاخر' }, fFruitPlatterLarge:{ name:'صحن فواكه كبير' },
         dWater:{ name:'ميّه معدنية / غازية' }, dSoft:{ name:'مشروب غازي' }, dEspresso:{ name:'إسبريسو / دبل' }, dMacchiato:{ name:'ماكياتو' }, dNescafe:{ name:'نسكافيه / كافيه أو لاتي' }, dAmericano:{ name:'أميريكانو' }, dHotChoc:{ name:'شوكو حار / بارد' }, dIcedCoffee:{ name:'قهوة باردة' }, dIceBlend:{ name:'آيس كوفي' }, dHerbal:{ name:'شاي أعشاب' }, dTeaMint:{ name:'شاي مي-نعنع' }, dSahleb:{ name:'سحلب' },
         acaiBuild:{ name:'آساي حسب الطلب "تركيبتنا أو تركيبتك"' },
-        coffeePastry:{ name:'قهوة + معجنات' },
-      }
+        coffeePastry:{ name:'قهوة + كوروسون' },
+
+        // NEW Desserts
+
+        dDubai:{ name:'شوكولاتة دبي', desc:'كيكة شوكولاتة غنية بطعم فاخر.' },
+        dMix:{ name:'حلويات', desc:'تشكيلة حلويات طازجة ومتغيرة.' },
+        dKnafeh:{ name:'كنافة', desc:'كنافة ساخنة بالجبنة الحلوة، مع بوظة – 42 ₪' },
+        dSouffle:{ name:'سوفليه', desc:'كيك شوكولاتة ساخن مع بوظة فانيلا.' },
+        dMalabi:{ name:'مهلبية', desc:'مهلبية باردة مع قطر الورد والمكسرات.' },
+        dWaria:{ name:'واريا', desc:'حلوى تقليدية بطعم مميز.' },
+        dCroissantPistachio:{ name:'كرواسون بالفستق أو الشوكولاتة', desc:'معجنات غنية محشوة حسب الاختيار.' },
+        dCorn:{ name:'ذرة صغيرة', desc:'ذرة ساخنة مع زبدة أو ملح.' },
+        dChestnuts:{ name:'كستناء', desc:'15 حبة مشوية طازجة.' },
+        dLupin:{ name:'ترمس', desc:'مسلوق ومالح بطعم لذيذ.' },
+        dAlmonds:{ name:'لوز محمص', desc:'لوز مقرمش ومملح بخفة.' },
+    
+    }
     },
 
     ru: {
       dir:'ltr', title:'Assal Port — Меню',
       ui:{ select:'Выберите язык', social:'Мы в', instagram:'Instagram' },
-      categories:{ smoothies:'Смузи', ice:'Ледяной граните', juices:'Натуральные соки', fruits:'Свежие фрукты', hotcold:'Горячие и холодные напитки', acai:'Асаи на выбор', coffeePastry:'Кофе + выпечка' },
+      categories:{ smoothies:'Смузи', ice:'Ледяной граните', juices:'Натуральные соки', fruits:'Свежие фрукты', hotcold:'Горячие и холодные напитки', acai:'Асаи на выбор', coffeePastry:'Кофе + выпечка',
+        desserts:'Десерты & вкусняшки' },
       items:{
         summerFresh:{ name:'Летняя свежесть', desc:'Арбуз, мята, ананас и малина.' },
         greenYellow:{ name:'Зелёто‑жёлтый', desc:'Киви, банан и зелёное яблоко.' },
@@ -281,13 +342,29 @@
         dWater:{ name:'Вода минеральная / газированная' }, dSoft:{ name:'Безалкогольный напиток' }, dEspresso:{ name:'Эспрессо / двойной' }, dMacchiato:{ name:'Маккиато' }, dNescafe:{ name:'Нескафе / латте' }, dAmericano:{ name:'Американо' }, dHotChoc:{ name:'Горячий/холодный шоколад' }, dIcedCoffee:{ name:'Холодный кофе' }, dIceBlend:{ name:'Айс-кофе' }, dHerbal:{ name:'Травяной чай' }, dTeaMint:{ name:'Чай – мята' }, dSahleb:{ name:'Сахлаб' },
         acaiBuild:{ name:'Асаи на выбор «наш рецепт или ваш»' },
         coffeePastry:{ name:'Кофе + выпечка' },
-      }
+
+        // NEW Desserts
+
+        dDubai:{ name:'Шоколад Дубай', desc:'Насыщенный шоколадный десерт.' },
+        dMix:{ name:'Десерты', desc:'Ассорти свежих десертов.' },
+        dKnafeh:{ name:'Кнафе', desc:'Тёплый восточный десерт с сыром. С мороженым – 42 ₪' },
+        dSouffle:{ name:'Суфле', desc:'Горячий шоколадный кекс с мороженым.' },
+        dMalabi:{ name:'Малаби', desc:'Холодный десерт с сиропом роз и орехами.' },
+        dWaria:{ name:'Варья', desc:'Классическая сладость с уникальной текстурой.' },
+        dCroissantPistachio:{ name:'Круассан с фисташкой или шоколадом', desc:'Свежая выпечка с начинкой на выбор.' },
+        dCorn:{ name:'Кукуруза малая', desc:'Горячая кукуруза с маслом или солью.' },
+        dChestnuts:{ name:'Каштаны', desc:'15 свежих жареных каштанов.' },
+        dLupin:{ name:'Люпин', desc:'Варёные и солёные бобы.' },
+        dAlmonds:{ name:'Миндаль', desc:'Сладкий поджаренный миндаль.' },
+    
+    }
     },
 
     fr: {
       dir:'ltr', title:'Assal Port — Carte',
       ui:{ select:'Choisir la langue', social:'Suivez‑nous sur', instagram:'Instagram' },
-      categories:{ smoothies:'Smoothies', ice:'Granité naturel', juices:'Jus naturels', fruits:'Fruits frais', hotcold:'Boissons chaudes & froides', acai:'Açaí à composer', coffeePastry:'Café + viennoiserie' },
+      categories:{ smoothies:'Smoothies', ice:'Granité naturel', juices:'Jus naturels', fruits:'Fruits frais', hotcold:'Boissons chaudes & froides', acai:'Açaí à composer', coffeePastry:'Café + viennoiserie',
+        desserts:'Desserts & délicieux' },
       items:{
         summerFresh:{ name:'Estival rafraîchissant', desc:'Pastèque, menthe, ananas et framboise.' },
         greenYellow:{ name:'Vert jaune', desc:'Kiwi, banane et pomme verte.' },
@@ -311,7 +388,22 @@
         dWater:{ name:'Eau minérale / gazeuse' }, dSoft:{ name:'Boisson gazeuse' }, dEspresso:{ name:'Espresso / double' }, dMacchiato:{ name:'Macchiato' }, dNescafe:{ name:'Nescafé / café au lait' }, dAmericano:{ name:'Américano' }, dHotChoc:{ name:'Chocolat chaud / froid' }, dIcedCoffee:{ name:'Café glacé' }, dIceBlend:{ name:'Ice coffee' }, dHerbal:{ name:'Infusion' }, dTeaMint:{ name:'Thé – menthe' }, dSahleb:{ name:'Sahlab' },
         acaiBuild:{ name:'Açaí « notre recette ou la vôtre »' },
         coffeePastry:{ name:'Café + viennoiserie' },
-      }
+
+        // NEW Desserts
+
+        dDubai:{ name:'Chocolat Dubaï', desc:'Gâteau au chocolat riche et fondant.' },
+        dMix:{ name:'Desserts', desc:'Sélection variée de desserts frais.' },
+        dKnafeh:{ name:'Knafeh', desc:'Dessert oriental chaud au fromage sucré. Avec glace – 42 ₪' },
+        dSouffle:{ name:'Soufflé', desc:'Gâteau au chocolat chaud avec glace vanille.' },
+        dMalabi:{ name:'Malabi', desc:'Flan froid au sirop de rose et noix.' },
+        dWaria:{ name:'Waria', desc:'Confiserie traditionnelle à texture unique.' },
+        dCroissantPistachio:{ name:'Croissant pistache ou chocolat', desc:'Viennoiserie garnie au choix.' },
+        dCorn:{ name:'Maïs petit', desc:'Épi chaud avec beurre ou sel.' },
+        dChestnuts:{ name:'Châtaignes', desc:'15 châtaignes grillées fraîches.' },
+        dLupin:{ name:'Lupin', desc:'Graines bouillies et salées.' },
+        dAlmonds:{ name:'Amandes', desc:'Amandes grillées légèrement sucrées.' },
+    
+    }
     }
   };
 
